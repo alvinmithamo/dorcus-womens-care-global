@@ -24,25 +24,29 @@ const Appointments = () => {
         type: "Initial Consultation",
         duration: "45 minutes",
         price: "KES 8,000",
-        description: "Comprehensive health assessment and discussion of concerns"
+        description: "Comprehensive health assessment and discussion of concerns",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchirike"
       },
       {
         type: "Follow-up Consultation",
         duration: "30 minutes", 
         price: "KES 6,000",
-        description: "Review of treatment progress and ongoing care"
+        description: "Review of treatment progress and ongoing care",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchirike"
       },
       {
         type: "Fertility Consultation",
         duration: "60 minutes",
         price: "KES 12,000",
-        description: "Specialized fertility assessment and treatment planning"
+        description: "Specialized fertility assessment and treatment planning",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchirike"
       },
       {
         type: "Emergency Consultation",
         duration: "Variable",
         price: "KES 10,000",
-        description: "Urgent gynecological concerns requiring immediate attention"
+        description: "Urgent gynecological concerns requiring immediate attention",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchirike"
       }
     ],
     UK: [
@@ -50,25 +54,29 @@ const Appointments = () => {
         type: "Initial Consultation",
         duration: "45 minutes",
         price: "£180",
-        description: "Comprehensive health assessment and discussion of concerns"
+        description: "Comprehensive health assessment and discussion of concerns",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchiriuk"
       },
       {
         type: "Follow-up Consultation", 
         duration: "30 minutes",
         price: "£120",
-        description: "Review of treatment progress and ongoing care"
+        description: "Review of treatment progress and ongoing care",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchiriuk"
       },
       {
         type: "Fertility Consultation",
         duration: "60 minutes",
         price: "£250",
-        description: "Specialized fertility assessment and treatment planning"
+        description: "Specialized fertility assessment and treatment planning",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchiriuk"
       },
       {
         type: "Emergency Consultation",
         duration: "Variable",
         price: "£200",
-        description: "Urgent gynecological concerns requiring immediate attention"
+        description: "Urgent gynecological concerns requiring immediate attention",
+        calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchiriuk"
       }
     ]
   };
@@ -79,14 +87,16 @@ const Appointments = () => {
       address: "Adams Arcade, Ngong Road, Nairobi",
       phone: "+254 700 123 456",
       hours: "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 2:00 PM",
-      paymentMethods: ["Cash", "M-Pesa", "Bank Transfer", "Insurance (NHIF, Private)"]
+      paymentMethods: ["Cash", "M-Pesa", "Bank Transfer", "Insurance (NHIF, Private)"],
+      calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchirike"
     },
     UK: {
       location: "London Women's Clinic",
       address: "123 Harley Street, London W1G 6BA",
       phone: "+44 20 7123 4567", 
       hours: "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 2:00 PM",
-      paymentMethods: ["Credit/Debit Card", "Bank Transfer", "Private Insurance", "Self-Pay"]
+      paymentMethods: ["Credit/Debit Card", "Bank Transfer", "Private Insurance", "Self-Pay"],
+      calendarEmbed: "https://api.leadconnectorhq.com/widget/groups/drmuchiriuk"
     }
   };
 
@@ -167,7 +177,17 @@ const Appointments = () => {
                       </div>
                       
                       {/* Placeholder for GHL Calendar Embed */}
-                      <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8 text-center">
+
+                      <div className="calendar-wrapper">
+                        <iframe
+                          src={consultation.calendarEmbed}
+                          style={{ width: "100%", border: "none", overflow: "hidden" }}
+                          scrolling="no"
+                          height="700"
+                        ></iframe>
+                      </div>
+
+                      {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8 text-center">
                         <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
                         <p className="text-muted-foreground mb-4">
                           GoHighLevel Calendar Embed for {consultation.type}
@@ -175,7 +195,7 @@ const Appointments = () => {
                         <Button className="btn-medical">
                           Schedule {consultation.type}
                         </Button>
-                      </div>
+                      </div> */}
                     </CardContent>
                   </Card>
                 ))}

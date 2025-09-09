@@ -49,7 +49,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary shrink-0" />
-                <span>+254 700 123 456</span>
+                <span>+44 7729 241050</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary shrink-0" />
@@ -101,7 +101,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="text-sm text-muted-foreground">
-              Developed by <a href="https://alvinnganga.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Alvin Mithamo </a>
+              Developed by <a href="https://alvinnganga.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><u>Alvin Mithamo</u> </a>
             </div>
           </div>
         </div>

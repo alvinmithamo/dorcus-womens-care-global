@@ -228,7 +228,7 @@ const About = () => {
         </section>
 
         {/* Personal Interests */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <h2 className="heading-secondary text-center mb-12">Beyond Medicine</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {interests.map((interest, index) => (
@@ -247,7 +247,7 @@ const About = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section className="text-center">

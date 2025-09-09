@@ -330,7 +330,7 @@ const Appointments = () => {
             </section>
 
             {/* Emergency Notice */}
-            <section>
+            {/* <section>
               <Card className="card-medical border-yellow-200 bg-yellow-50/50">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
@@ -351,7 +351,7 @@ const Appointments = () => {
                   </div>
                 </CardContent>
               </Card>
-            </section>
+            </section> */}
           </>
         )}
       </div>

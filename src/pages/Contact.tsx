@@ -9,7 +9,9 @@ import {
   Clock, 
   Calendar,
   MessageSquare,
-  Globe
+  Globe,
+
+  
 } from 'lucide-react';
 
 const Contact = () => {
@@ -19,10 +21,10 @@ const Contact = () => {
       flag: "🇰🇪",
       clinicName: "Nairobi Women's Hospital",
       address: "Adams Arcade, Ngong Road\nNairobi, Kenya",
-      phone: "+254 700 123 456",
-      email: "kenya@drdorcus.com",
-      hours: "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 2:00 PM\nSunday: Emergency Only",
-      emergencyPhone: "+254 700 999 000",
+      phone: "+44 7729 241050",
+      email: "info@drdorcusmuchiri.com",
+      hours: "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 2:00 PM",
+      emergencyPhone: "+44 7729 241050",
       mapEmbedId: "kenya-clinic"
     },
     {
@@ -30,9 +32,9 @@ const Contact = () => {
       flag: "🇬🇧",
       clinicName: "London Women's Clinic",
       address: "123 Harley Street\nLondon W1G 6BA\nUnited Kingdom",
-      phone: "+44 20 7123 4567",
-      email: "uk@drdorcus.com", 
-      hours: "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 2:00 PM\nSunday: Emergency Only",
+      phone: "+44 7729 241050",
+      email: "info@drdorcusmuchiri.com", 
+      hours: "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 2:00 PM",
       emergencyPhone: "+44 20 7999 0000",
       mapEmbedId: "uk-clinic"
     }
@@ -165,7 +167,23 @@ const Contact = () => {
                   </div>
 
                   {/* Map Placeholder */}
-                  <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8 text-center">
+
+                   <div className="rounded-lg overflow-hidden border border-border">
+                    <iframe
+                      src={location.country === "Kenya" 
+                        ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.786087731234!2d36.7817!3d-1.3028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x940b62a3c8efde4c!2sAdams%20Arcade%2C%20Nairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
+                        : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.7535827553333!2d-0.1454!3d51.5174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ad554c335c1%3A0x9b7d3f0f8b9a7c8e!2s123%20Harley%20St%2C%20Marylebone%2C%20London%20W1G%206BA%2C%20UK!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
+                      }
+                      width="100%"
+                      height="300"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={`Map of ${location.clinicName}`}
+                    />
+                  </div>
+                  {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8 text-center">
                     <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
                     <p className="text-muted-foreground mb-4">
                       Google Maps Embed for {location.clinicName}
@@ -173,13 +191,13 @@ const Contact = () => {
                     <Button variant="outline" size="sm">
                       View on Google Maps
                     </Button>
-                  </div>
+                  </div> */}
 
                   {/* Quick Actions */}
                   <div className="grid grid-cols-2 gap-4 pt-4">
                     <Button className="btn-medical-outline" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
-                      Call
+                      Chat with Us
                     </Button>
                     <Button className="btn-medical" size="sm">
                       <Calendar className="h-4 w-4 mr-2" />
@@ -206,7 +224,29 @@ const Contact = () => {
               </CardHeader>
               <CardContent>
                 {/* Placeholder for GHL Form Embed */}
-                <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-12 text-center">
+                <div className='rounded-lg-overflow-hidden-border-border-border'>
+                  <iframe
+                    src="https://api.leadconnectorhq.com/widget/form/SUNeFDz3exRQlN9Th60y"
+                    style={{ width:"100%",height:"600px",border:"none",borderRadius:"3px" }}
+                    id="inline-SUNeFDz3exRQlN9Th60y" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Contact Form"
+                    data-height="558"
+                    data-layout-iframe-id="inline-SUNeFDz3exRQlN9Th60y"
+                    data-form-id="SUNeFDz3exRQlN9Th60y"
+                    title="Contact Form"
+                        >
+                </iframe>
+                <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+                </div>
+
+                {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-12 text-center">
                   <MessageSquare className="h-16 w-16 text-primary mx-auto mb-6" />
                   <h3 className="text-xl font-medium text-foreground mb-4">
                     GoHighLevel Contact Form Embed
@@ -218,14 +258,14 @@ const Contact = () => {
                   <Button className="btn-medical">
                     Load Contact Form
                   </Button>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </div>
         </section>
 
         {/* Emergency Information */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <Card className="card-medical border-red-200 bg-red-50/50">
             <CardContent className="pt-6">
               <div className="text-center">
@@ -252,7 +292,7 @@ const Contact = () => {
               </div>
             </CardContent>
           </Card>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section className="text-center">

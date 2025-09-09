@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import heroImage from '@/assets/dr-dorcus-hero.jpg';
 import clinicImage from '@/assets/clinic-interior.jpg';
+import dorcus from '@/assets/dorcus-noBG.png'
 
 const Home = () => {
   const { country } = useLocation();
@@ -126,7 +127,7 @@ const Home = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img
-                  src={heroImage}
+                  src={dorcus}
                   alt="Dr. Dorcus Wamaitha Muchiri"
                   className="w-full h-auto rounded-2xl shadow-large"
                 />

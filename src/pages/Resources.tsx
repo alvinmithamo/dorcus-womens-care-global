@@ -247,7 +247,7 @@ const Resources = () => {
         </section>
 
         {/* Newsletter Signup */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <Card className="card-medical bg-gradient-soft">
             <CardContent className="pt-12 pb-12 text-center">
               <h2 className="heading-secondary mb-6">Stay Informed</h2>
@@ -258,7 +258,7 @@ const Resources = () => {
               
               <div className="max-w-md mx-auto">
                 {/* Placeholder for GHL Form Embed */}
-                <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8">
+                {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8">
                   <p className="text-muted-foreground mb-4">
                     GoHighLevel Newsletter Signup Form
                   </p>
@@ -268,8 +268,8 @@ const Resources = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        </section>
+          </Card> */}
+        {/* </section> */} 
 
         {/* CTA Section */}
         <section className="text-center">

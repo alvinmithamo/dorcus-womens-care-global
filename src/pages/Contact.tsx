@@ -166,19 +166,13 @@ const Contact = () => {
                     </div>
                   </div>
 
-<<<<<<< HEAD
-                  {/* Map Placeholder */}
-
-                   <div className="rounded-lg overflow-hidden border border-border">
-=======
                   {/* Google Maps Embed */}
                   <div className="rounded-lg overflow-hidden border border-border">
->>>>>>> f841032a1b7fa6ff451161fa044458bb863d0d79
                     <iframe
                       src={location.country === "Kenya" 
                         ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.786087731234!2d36.7817!3d-1.3028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x940b62a3c8efde4c!2sAdams%20Arcade%2C%20Nairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
                         : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.7535827553333!2d-0.1454!3d51.5174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ad554c335c1%3A0x9b7d3f0f8b9a7c8e!2s123%20Harley%20St%2C%20Marylebone%2C%20London%20W1G%206BA%2C%20UK!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
-                      }
+                    }
                       width="100%"
                       height="300"
                       style={{ border: 0 }}
@@ -188,18 +182,6 @@ const Contact = () => {
                       title={`Map of ${location.clinicName}`}
                     />
                   </div>
-<<<<<<< HEAD
-                  {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-8 text-center">
-                    <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
-                    <p className="text-muted-foreground mb-4">
-                      Google Maps Embed for {location.clinicName}
-                    </p>
-                    <Button variant="outline" size="sm">
-                      View on Google Maps
-                    </Button>
-                  </div> */}
-=======
->>>>>>> f841032a1b7fa6ff451161fa044458bb863d0d79
 
                   {/* Quick Actions */}
                   <div className="grid grid-cols-2 gap-4 pt-4">

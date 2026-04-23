@@ -9,49 +9,49 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Base colors - Clean medical palette */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
+    /* Base colors - Warm cream + teal medical palette (Dr. Dorcus brand) */
+    --background: 33 45% 94%;
+    --foreground: 180 25% 15%;
 
     /* Card and surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 180 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover-foreground: 180 25% 15%;
 
-    /* Primary - Professional medical blue */
-    --primary: 210 100% 56%;
+    /* Primary - Brand teal */
+    --primary: 180 32% 38%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 210 100% 97%;
-    --primary-soft: 210 100% 92%;
+    --primary-light: 180 30% 94%;
+    --primary-soft: 180 28% 86%;
 
-    /* Secondary - Soft medical blue */
-    --secondary: 200 25% 97%;
-    --secondary-foreground: 215 25% 27%;
+    /* Secondary - Warm beige */
+    --secondary: 33 55% 88%;
+    --secondary-foreground: 180 25% 18%;
 
     /* Muted tones */
-    --muted: 200 15% 96%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 33 30% 92%;
+    --muted-foreground: 180 12% 38%;
 
-    /* Accent colors - Medical purple and green */
-    --accent: 200 25% 97%;
-    --accent-foreground: 215 25% 27%;
-    --accent-purple: 262 83% 58%;
-    --accent-green: 142 71% 45%;
-    --accent-purple-light: 262 83% 96%;
-    --accent-green-light: 142 71% 95%;
+    /* Accent colors - Mustard yellow CTA + soft coral + brand teal */
+    --accent: 42 90% 56%;
+    --accent-foreground: 180 30% 15%;
+    --accent-purple: 14 75% 70%;
+    --accent-green: 180 32% 38%;
+    --accent-purple-light: 14 75% 94%;
+    --accent-green-light: 180 30% 94%;
 
     /* Status colors */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --success: 142 71% 45%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 50% 40%;
     --success-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 200 20% 90%;
-    --input: 200 20% 90%;
-    --ring: 210 100% 56%;
+    --border: 33 25% 84%;
+    --input: 33 25% 84%;
+    --ring: 180 32% 38%;
 
     --radius: 0.5rem;
 
@@ -71,11 +71,11 @@ All colors MUST be HSL.
 
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Custom gradients for medical elegance */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
-    --gradient-soft: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--secondary)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-soft)), hsl(var(--background)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent-purple) / 0.1), hsl(var(--accent-green) / 0.1));
+    /* Custom gradients - warm cream + teal */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(180 35% 28%));
+    --gradient-soft: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--background)));
+    --gradient-hero: linear-gradient(135deg, hsl(33 55% 90%), hsl(33 45% 94%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent) / 0.15), hsl(var(--accent-purple) / 0.15));
 
     /* Elegant shadows */
     --shadow-soft: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -2px hsl(var(--primary) / 0.1);
@@ -160,9 +160,9 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Medical professional button variants */
+  /* Medical professional button variants - mustard CTA per brand */
   .btn-medical {
-    @apply bg-gradient-to-r from-primary to-primary/90 text-primary-foreground font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105;
+    @apply bg-accent text-accent-foreground font-medium px-6 py-3 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 hover:brightness-105;
   }
 
   .btn-medical-outline {

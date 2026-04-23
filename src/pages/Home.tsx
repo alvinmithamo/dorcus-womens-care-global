@@ -82,24 +82,30 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-hero py-16 lg:py-24">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-gradient-hero py-16 lg:py-24 overflow-hidden">
+        {/* Decorative dots */}
+        <div className="absolute top-20 left-10 w-3 h-3 rounded-full bg-primary/60" />
+        <div className="absolute top-40 right-1/3 w-2 h-2 rounded-full bg-accent" />
+        <div className="absolute bottom-24 left-1/4 w-2.5 h-2.5 rounded-full bg-accent-purple" />
+        <div className="absolute top-1/2 right-10 w-3 h-3 rounded-full bg-primary/50" />
+
+        <div className="container mx-auto px-4 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <Badge variant="secondary" className="mb-4">
+                <Badge variant="secondary" className="mb-4 bg-primary-soft text-primary border-0">
                   <Globe className="h-4 w-4 mr-2" />
                   International Women's Health Specialist
                 </Badge>
                 <h1 className="heading-primary">
-                  Dedicated to <span className="text-medical-accent">Women's Health</span> in Kenya & the UK
+                  Dedicated to <span className="text-medical-accent italic">Women's Health</span> in Kenya & the UK
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  Providing compassionate, evidence-based gynecological care with international expertise. 
+                  Providing compassionate, evidence-based gynecological care with international expertise.
                   Your health journey deserves personalized attention and world-class medical care.
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Button size="lg" className="btn-medical" asChild>
                   <Link to="/appointments">
@@ -107,7 +113,7 @@ const Home = () => {
                     Book Consultation
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" variant="outline" className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground" asChild>
                   <Link to="/services">
                     Learn About Services
                     <ArrowRight className="h-5 w-5 ml-2" />
@@ -124,15 +130,55 @@ const Home = () => {
               )}
             </div>
 
-            <div className="relative">
+            <div className="relative flex items-center justify-center min-h-[480px]">
+              {/* Orbital decorative rings */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[420px] h-[420px] rounded-full border border-primary/20" />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[340px] h-[340px] rounded-full border border-primary/15" />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[260px] h-[260px] rounded-full border border-primary/10" />
+              </div>
+
+              {/* Portrait */}
               <div className="relative z-10">
                 <img
                   src={dorcus}
                   alt="Dr. Dorcus Wamaitha Muchiri"
-                  className="w-full h-auto rounded-2xl shadow-large"
+                  className="w-full max-w-md h-auto relative z-10"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-full h-full bg-gradient-primary rounded-2xl opacity-20 -z-10"></div>
+
+              {/* Satisfied Patients badge */}
+              <div className="absolute top-6 left-2 lg:left-0 z-20 bg-card rounded-2xl shadow-large px-4 py-3 flex items-center space-x-3">
+                <div className="flex -space-x-2">
+                  {['bg-accent-purple', 'bg-primary', 'bg-accent', 'bg-accent-green'].map((c, i) => (
+                    <div key={i} className={`w-7 h-7 rounded-full border-2 border-card ${c}`} />
+                  ))}
+                </div>
+                <div>
+                  <div className="text-lg font-medium text-foreground leading-none">1k+</div>
+                  <div className="text-xs text-muted-foreground">Satisfied Patients</div>
+                </div>
+              </div>
+
+              {/* Years of experience badge */}
+              <div className="absolute bottom-8 left-0 lg:-left-4 z-20 bg-primary text-primary-foreground rounded-2xl shadow-large w-24 h-24 flex flex-col items-center justify-center">
+                <div className="text-3xl font-light leading-none">10+</div>
+                <div className="text-[11px] mt-1 text-center px-2 leading-tight">Years of Experience</div>
+              </div>
+
+              {/* Trusted by patients chip */}
+              <div className="absolute bottom-20 right-2 lg:right-0 z-20 bg-card rounded-full shadow-medium px-4 py-2 flex items-center space-x-2">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-3 w-3 text-accent fill-current" />
+                  ))}
+                </div>
+                <span className="text-xs font-medium text-foreground">Trusted by patients</span>
+              </div>
             </div>
           </div>
         </div>

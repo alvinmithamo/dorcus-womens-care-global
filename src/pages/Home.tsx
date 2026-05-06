@@ -4,13 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLocation } from '@/components/LocationProvider';
-import { 
-  Calendar, 
-  Heart, 
-  Baby, 
-  Users, 
-  Award, 
-  Globe, 
+import {
+  Calendar,
+  Heart,
+  Baby,
+  Users,
+  Award,
+  Globe,
   Star,
   CheckCircle,
   ArrowRight,
@@ -25,12 +25,6 @@ const Home = () => {
 
   const services = [
     {
-      icon: Baby,
-      title: "Pregnancy Care",
-      description: "Comprehensive prenatal, delivery, and postnatal care for a healthy pregnancy journey.",
-      color: "text-accent-green"
-    },
-    {
       icon: Heart,
       title: "Fertility Support",
       description: "Expert guidance and treatment for couples on their fertility journey.",
@@ -38,21 +32,21 @@ const Home = () => {
     },
     {
       icon: Users,
-      title: "Family Planning",
-      description: "Personalized contraception and family planning solutions.",
+      title: "Menopause Support",
+      description: "Comprehensive guidance and personalized treatments to manage symptoms and support your transition through every stage of menopause.",
       color: "text-primary"
     },
     {
       icon: Award,
-      title: "Preventive Care",
-      description: "Regular screenings and preventive health measures for optimal well-being.",
+      title: "Reproductive Hormonal Health",
+      description: "Expert diagnosis and management of hormonal imbalances affecting reproductive health.",
       color: "text-accent-green"
     }
   ];
 
   const qualifications = [
     "M.MED Obstetrics & Gynaecology, University of Nairobi",
-    "MBChB Medicine & Surgery, University of Nairobi", 
+    "MBChB Medicine & Surgery, University of Nairobi",
     "NHS Training & Certification, United Kingdom",
     "Member, Kenya Medical Association",
     "International Women's Health Research"
@@ -98,11 +92,11 @@ const Home = () => {
                   International Women's Health Specialist
                 </Badge>
                 <h1 className="heading-primary">
-                  Dedicated to <span className="text-medical-accent italic">Women's Health</span> in Kenya & the UK
+                  Empowering <span className="text-medical-accent italic">Women's Health</span>Through Knowledge
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  Providing compassionate, evidence-based gynecological care with international expertise.
-                  Your health journey deserves personalized attention and world-class medical care.
+                  Dedicated to women's health education, obstetrics, gynaecology, reproductive health, and hormone health.
+                  Dr. Muchiri simplifies complex medical information, making it accessible for women and their healthcare providers.
                 </p>
               </div>
 
@@ -159,7 +153,7 @@ const Home = () => {
                   ))}
                 </div>
                 <div>
-                  <div className="text-lg font-medium text-foreground leading-none">1k+</div>
+                  <div className="text-lg font-medium text-foreground leading-none">100+</div>
                   <div className="text-xs text-muted-foreground">Satisfied Patients</div>
                 </div>
               </div>
@@ -185,21 +179,21 @@ const Home = () => {
       </section>
 
       {/* Core Services */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="heading-secondary mb-4">
               Comprehensive Women's Health Services
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              From pregnancy care to menopause support, I provide personalized treatment 
+              From fertility support to menopause support, I provide personalized treatment
               plans tailored to your unique health needs and life stage.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="card-medical-feature group cursor-pointer">
+              <Card key={index} className="card-medical-feature group cursor-pointer bg-primary-soft">
                 <CardHeader className="text-center">
                   <div className={`mx-auto mb-4 p-3 rounded-full bg-background/50 ${service.color}`}>
                     <service.icon className="h-8 w-8" />
@@ -244,7 +238,7 @@ const Home = () => {
                   Why Choose Dr. Dorcus?
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  With extensive training in both Kenya and the UK, I bring international 
+                  With extensive training in both Kenya and the UK, I bring international
                   standards of care combined with deep understanding of diverse women's health needs.
                 </p>
               </div>
@@ -264,11 +258,11 @@ const Home = () => {
                   <div className="text-sm text-muted-foreground">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-light text-primary mb-2">2</div>
+                  <div className="text-3xl font-light text-primary mb-2">2+</div>
                   <div className="text-sm text-muted-foreground">Countries</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-light text-primary mb-2">1000+</div>
+                  <div className="text-3xl font-light text-primary mb-2">100+</div>
                   <div className="text-sm text-muted-foreground">Patients Served</div>
                 </div>
               </div>
@@ -303,13 +297,13 @@ const Home = () => {
                       <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  
+
                   <Quote className="h-8 w-8 text-primary/20 mb-4" />
-                  
+
                   <p className="text-muted-foreground mb-6 leading-relaxed">
                     "{testimonial.text}"
                   </p>
-                  
+
                   <div>
                     <div className="font-medium text-foreground">{testimonial.name}</div>
                     <div className="text-sm text-muted-foreground">{testimonial.location}</div>
@@ -329,10 +323,10 @@ const Home = () => {
               Ready to Take Control of Your Health?
             </h2>
             <p className="text-xl text-muted-foreground">
-              Book your consultation today and experience personalized, compassionate care 
+              Book your consultation today and experience personalized, compassionate care
               from an internationally trained women's health specialist.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
               <Button size="lg" className="btn-medical" asChild>
                 <Link to="/appointments">

@@ -4,12 +4,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Dorcus from '@/assets/dorcus-noBG.png';
-import { 
-  GraduationCap, 
-  Award, 
-  Globe, 
-  Heart, 
-  BookOpen, 
+import {
+  GraduationCap,
+  Award,
+  Globe,
+  Heart,
+  BookOpen,
   Plane,
   Calendar,
   ArrowRight
@@ -21,13 +21,13 @@ const About = () => {
     {
       degree: "M.MED Obstetrics & Gynaecology",
       institution: "University of Nairobi",
-      year: "2018",
+      // year: "2018",
       description: "Specialized postgraduate training in comprehensive women's health"
     },
     {
       degree: "MBChB Medicine & Surgery",
       institution: "University of Nairobi",
-      year: "2014",
+      // year: "2014",
       description: "Bachelor of Medicine and Bachelor of Surgery"
     }
   ];
@@ -74,26 +74,26 @@ const About = () => {
   return (
     <div className="min-h-screen py-16 lg:py-24">
       <div className="container mx-auto px-4">
-        
+
         {/* Hero Section */}
         <section className="mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div>
-                <Badge variant="secondary" className="mb-4">
+                {/* <Badge variant="secondary" className="mb-4">
                   <Globe className="h-4 w-4 mr-2" />
                   International Medical Professional
-                </Badge>
+                </Badge> */}
                 <h1 className="heading-primary mb-6">
                   About <span className="text-medical-accent">Dr. Dorcus</span> Wamaitha Muchiri
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  A dedicated women's health specialist with international training and a passion 
-                  for providing evidence-based, compassionate care to women across different 
+                  A dedicated women's health specialist with international training and a passion
+                  for providing evidence-based, compassionate care to women across different
                   stages of their lives.
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Button className="btn-medical" asChild>
                   <Link to="/appointments">
@@ -109,7 +109,7 @@ const About = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="relative">
               <img
                 src={Dorcus}
@@ -127,23 +127,23 @@ const About = () => {
               <h2 className="heading-secondary mb-6">My Journey in Medicine</h2>
               <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
                 <p>
-                  My journey in medicine began with a deep-seated desire to make a meaningful 
-                  difference in women's lives. After completing my medical education at the 
-                  University of Nairobi, I specialized in Obstetrics and Gynaecology, driven 
-                  by the profound impact that quality reproductive healthcare can have on 
+                  My journey in medicine began with a deep-seated desire to make a meaningful
+                  difference in women's lives. After completing my medical education at the
+                  University of Nairobi, I specialized in Obstetrics and Gynaecology, driven
+                  by the profound impact that quality reproductive healthcare can have on
                   families and communities.
                 </p>
                 <p>
-                  The opportunity to train within the NHS in the United Kingdom expanded my 
-                  perspective on global healthcare standards and exposed me to diverse 
-                  approaches to women's health. This international experience has been 
-                  invaluable in shaping my practice philosophy of combining evidence-based 
+                  The opportunity to train within the NHS in the United Kingdom expanded my
+                  perspective on global healthcare standards and exposed me to diverse
+                  approaches to women's health. This international experience has been
+                  invaluable in shaping my practice philosophy of combining evidence-based
                   medicine with culturally sensitive, patient-centered care.
                 </p>
                 <p>
-                  Today, I am privileged to serve women in both Kenya and the UK, bringing 
-                  together the best of both healthcare systems. My approach emphasizes not 
-                  just treating conditions, but empowering women with knowledge and support 
+                  Today, I am privileged to serve women in both Kenya and the UK, bringing
+                  together the best of both healthcare systems. My approach emphasizes not
+                  just treating conditions, but empowering women with knowledge and support
                   to make informed decisions about their health throughout every stage of life.
                 </p>
               </div>
@@ -162,7 +162,7 @@ const About = () => {
                     <div className="p-2 rounded-full bg-primary/10">
                       <GraduationCap className="h-6 w-6 text-primary" />
                     </div>
-                    <Badge variant="outline">{edu.year}</Badge>
+                    {/* <Badge variant="outline">{edu.year}</Badge> */}
                   </div>
                   <CardTitle className="text-xl">{edu.degree}</CardTitle>
                   <CardDescription className="text-primary font-medium">
@@ -178,7 +178,7 @@ const About = () => {
         </section>
 
         {/* Professional Experience */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <h2 className="heading-secondary text-center mb-12">Professional Experience</h2>
           <div className="space-y-8">
             {experience.map((exp, index) => (
@@ -198,7 +198,7 @@ const About = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Professional Affiliations */}
         <section className="mb-16">
@@ -212,14 +212,17 @@ const About = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="text-center">
+                  <img src="../assets/kma-final-logo.png" alt="" className='w-20 h-20 mx-auto' />
                   <h4 className="font-medium text-foreground mb-2">Kenya Medical Association</h4>
                   <p className="text-sm text-muted-foreground">Active Member</p>
                 </div>
                 <div className="text-center">
+                  <img src="../assets/royal-college.jpeg" alt="" className='w-20 h-20 mx-auto' />
                   <h4 className="font-medium text-foreground mb-2">Royal College of Obstetricians</h4>
                   <p className="text-sm text-muted-foreground">Associate Member</p>
                 </div>
                 <div className="text-center">
+                  <img src="C:\Users\alvin\OneDrive\Desktop\dorcus-womens-care-global\src\assets\figo.png" alt="" className='w-20 h-20 mx-auto' />
                   <h4 className="font-medium text-foreground mb-2">International Federation of Gynecology</h4>
                   <p className="text-sm text-muted-foreground">Research Contributor</p>
                 </div>
@@ -258,10 +261,10 @@ const About = () => {
                 Experience Personalized Women's Health Care
               </h2>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Let's work together to address your health needs with the expertise, 
+                Let's work together to address your health needs with the expertise,
                 compassion, and international standards you deserve.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <Button size="lg" className="btn-medical" asChild>
                   <Link to="/appointments">

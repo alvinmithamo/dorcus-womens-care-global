@@ -2,10 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dr. Dorcus Medical Website Design System
-Professional medical aesthetic with soft blues, whites, and elegant accents
-All colors MUST be HSL.
-*/
+
 
 @layer base {
   :root {
@@ -179,7 +176,7 @@ All colors MUST be HSL.
   }
 
   .card-medical-feature {
-    @apply bg-gradient-to-br from-primary-light to-secondary p-8 rounded-xl border border-border/50 transition-all duration-300 hover:shadow-medium hover:scale-105;
+    @apply bg-background text-foreground p-8 rounded-xl border border-border/50 transition-all duration-300 hover:shadow-medium hover:scale-105;
   }
 
   /* Typography classes */

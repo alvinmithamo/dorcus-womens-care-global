@@ -14,7 +14,11 @@ import {
   Calendar,
   ArrowRight,
   CheckCircle,
-  Clock
+  Clock,
+  BookOpen,
+  Microscope,
+  Brain,
+  Megaphone
 } from 'lucide-react';
 
 const Services = () => {
@@ -22,120 +26,87 @@ const Services = () => {
 
   const services = [
     {
-      icon: Baby,
-      title: "Obstetrics & Pregnancy Care",
-      description: "Comprehensive care throughout your pregnancy journey",
-      color: "text-accent-green",
-      bgColor: "bg-accent-green-light",
-      details: [
-        "Prenatal consultations and monitoring",
-        "High-risk pregnancy management",
-        "Delivery planning and support",
-        "Postnatal care and recovery",
-        "Breastfeeding guidance",
-        "Family planning after delivery"
-      ],
-      pricing: {
-        Kenya: "KES 8,000 - 15,000",
-        UK: "£150 - £300"
-      }
-    },
-    {
-      icon: Stethoscope,
-      title: "Gynecological Examinations",
-      description: "Regular screenings and diagnostic procedures",
-      color: "text-primary",
-      bgColor: "bg-primary-light",
-      details: [
-        "Annual gynecological check-ups",
-        "Pap smear and cervical screening",
-        "HPV testing and prevention",
-        "Breast examination and counseling",
-        "Pelvic examination and assessment",
-        "STI screening and treatment"
-      ],
-      pricing: {
-        Kenya: "KES 5,000 - 12,000",
-        UK: "£120 - £250"
-      }
-    },
-    {
       icon: Heart,
-      title: "Fertility & Reproductive Health",
-      description: "Support for your fertility journey and reproductive wellness",
+      title: "Fertility Support",
+      description: "Comprehensive fertility assessment and personalized treatment plans",
       color: "text-accent-purple",
       bgColor: "bg-accent-purple-light",
-      details: [
-        "Fertility assessment and counseling",
-        "Ovulation monitoring and tracking",
-        "Hormonal evaluation and treatment",
-        "Pre-conception counseling",
-        "Infertility investigation and management",
-        "Reproductive endocrinology consultation"
-      ],
+      details: "Our fertility support services provide comprehensive assessment and counseling, ovulation monitoring, hormonal evaluation, pre-conception planning, infertility investigation, assisted reproductive technology consultation, and lifestyle optimization to help you achieve your family planning goals.",
       pricing: {
-        Kenya: "KES 10,000 - 25,000",
-        UK: "£200 - £500"
-      }
-    },
-    {
-      icon: Users,
-      title: "Family Planning & Contraception",
-      description: "Personalized contraceptive solutions and family planning",
-      color: "text-accent-green",
-      bgColor: "bg-accent-green-light",
-      details: [
-        "Contraceptive counseling and selection",
-        "IUD insertion and removal",
-        "Hormonal contraception management",
-        "Emergency contraception",
-        "Sterilization procedures",
-        "Natural family planning methods"
-      ],
-      pricing: {
-        Kenya: "KES 3,000 - 8,000",
-        UK: "£80 - £200"
+        Kenya: "KES 8,000 - 20,000",
+        UK: "£180 - £450"
       }
     },
     {
       icon: Activity,
-      title: "Menopause & Hormonal Health",
-      description: "Comprehensive support through life transitions",
+      title: "Menopause Support",
+      description: "Expert guidance and treatment through menopausal transition",
       color: "text-primary",
       bgColor: "bg-primary-light",
-      details: [
-        "Menopause assessment and management",
-        "Hormone replacement therapy (HRT)",
-        "Bone health evaluation",
-        "Cardiovascular risk assessment",
-        "Mood and wellness support",
-        "Lifestyle modification guidance"
-      ],
+      details: "We offer specialized menopause assessment and symptom management, hormone replacement therapy consultation, bone health evaluation, cardiovascular risk assessment, mood and wellness support, sleep disorder management, and lifestyle guidance to ensure a smooth transition through this important life stage.",
       pricing: {
         Kenya: "KES 6,000 - 15,000",
         UK: "£150 - £350"
       }
     },
     {
-      icon: Shield,
-      title: "Preventive Care & Wellness",
-      description: "Proactive health maintenance and disease prevention",
+      icon: Brain,
+      title: "Reproductive Hormone Health",
+      description: "Specialized care for hormonal balance and reproductive wellness",
+      color: "text-accent-green",
+      bgColor: "bg-accent-green-light",
+      details: "Our reproductive hormone health services include comprehensive hormone testing, thyroid and adrenal assessment, PCOS management, endometriosis treatment, menstrual disorder care, hormonal acne treatment, and personalized balancing protocols to restore optimal hormonal function.",
+      pricing: {
+        Kenya: "KES 7,000 - 18,000",
+        UK: "£160 - £400"
+      }
+    },
+    {
+      icon: BookOpen,
+      title: "Women's Health Education",
+      description: "Empowering women with knowledge for better health decisions",
       color: "text-accent-purple",
       bgColor: "bg-accent-purple-light",
-      details: [
-        "Regular health screenings",
-        "Lifestyle and nutrition counseling",
-        "Exercise and wellness planning",
-        "Mental health support",
-        "Chronic disease prevention",
-        "Health education and empowerment"
-      ],
+      details: "We empower women through health literacy workshops, reproductive health education, preventive care training, nutrition guidance, mental health awareness, self-care practices, and community outreach programs to promote informed health decisions and wellness.",
       pricing: {
-        Kenya: "KES 4,000 - 10,000",
-        UK: "£100 - £250"
+        Kenya: "KES 3,000 - 8,000",
+        UK: "£80 - £200"
+      }
+    },
+    {
+      icon: Microscope,
+      title: "Research on Women's Public Health",
+      description: "Advancing knowledge in reproductive and hormone health to empower women",
+      color: "text-primary",
+      bgColor: "bg-primary-light",
+      details: "Our research initiatives offer clinical study participation, women's health trials, reproductive health research, hormone advancement programs, public health policy contribution, evidence-based treatment development, and community data analysis to advance women's health knowledge and care standards.",
+      pricing: {
+        Kenya: "Variable (Research Programs)",
+        UK: "Variable (Research Programs)"
       }
     }
   ];
+
+  const speakingAndConsulting = {
+    icon: Megaphone,
+    title: "Speaking & Consulting",
+    description: "Expert speaking engagements and consulting for conferences, forums, and workshops",
+    color: "text-accent-purple",
+    bgColor: "bg-accent-purple-light",
+    details: [
+      "Conference keynote presentations",
+      "Professional forum speaking",
+      "Educational workshop facilitation",
+      "Corporate wellness consulting",
+      "Healthcare policy advisory",
+      "Media expert commentary",
+      "Custom training program development"
+    ],
+    pricing: {
+      Kenya: "Variable (Event-Based)",
+      UK: "Variable (Event-Based)"
+    }
+  };
 
   const emergencyServices = [
     "24/7 Emergency consultations",
@@ -152,14 +123,13 @@ const Services = () => {
         <section className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">
             <Stethoscope className="h-4 w-4 mr-2" />
-            Comprehensive Women's Health Services
+            Our Core Services
           </Badge>
           <h1 className="heading-primary mb-6">
-            <span className="text-medical-accent">Complete Care</span> for Every Stage of Life
+            <span className="text-medical-accent">Specialized Care</span> for Women's Health & Wellness
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            From adolescence through menopause and beyond, I provide personalized, 
-            evidence-based care tailored to your unique health needs and life circumstances.
+            Expert services in fertility support, menopause care, hormone health, education, and research to empower your health journey
           </p>
           
           {country && (
@@ -200,14 +170,9 @@ const Services = () => {
                 </CardHeader>
                 
                 <CardContent>
-                  <div className="space-y-3 mb-6">
-                    {service.details.map((detail, idx) => (
-                      <div key={idx} className="flex items-start space-x-3">
-                        <CheckCircle className="h-4 w-4 text-accent-green mt-1 shrink-0" />
-                        <span className="text-sm text-muted-foreground">{detail}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                    {service.details}
+                  </p>
                   
                   <Button className="w-full btn-medical" asChild>
                     <Link to="/appointments">
@@ -218,6 +183,78 @@ const Services = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </section>
+
+        {/* Speaking & Consulting Section */}
+        <section className="mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Photo Carousel Side */}
+            <div className="relative">
+              <Card className="card-medical h-full">
+                <CardContent className="p-0">
+                  <div className="relative h-96 overflow-hidden rounded-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/20 to-primary/20">
+                      {/* Placeholder for carousel - can be replaced with actual carousel component */}
+                      <div className="flex items-center justify-center h-full">
+                        <div className="text-center">
+                          <Megaphone className="h-16 w-16 text-accent-purple mx-auto mb-4" />
+                          <p className="text-muted-foreground">Speaking Engagements Gallery</p>
+                          <p className="text-sm text-muted-foreground mt-2">Conference photos coming soon</p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Carousel indicators placeholder */}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-muted rounded-full"></div>
+                      <div className="w-2 h-2 bg-muted rounded-full"></div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* Description Side */}
+            <div>
+               
+                  <p className="text-foreground mb-6 leading-relaxed">
+                    Dr. Dorcus brings extensive expertise in women's health to conferences, forums, and workshops worldwide. 
+                    As a sought-after speaker, she delivers compelling keynote presentations on fertility support, menopause care, 
+                    reproductive hormone health, and women's health education. Her consulting services extend to corporate wellness programs, 
+                    healthcare policy advisory, media expert commentary, and custom training program development. 
+                    Whether you're organizing a professional conference, educational workshop, or seeking specialized consulting for your organization, 
+                    Dr. Dorcus provides evidence-based insights that empower and educate audiences on critical women's health topics.
+                  </p>
+                  
+                  {country && (
+                    <div className="bg-muted/50 rounded-lg p-4 mb-6">
+                      <div className="flex items-center">
+                        <span className="text-sm font-medium text-foreground">Pricing:</span>
+                        <span className="text-lg font-semibold text-primary ml-2">
+                          {speakingAndConsulting.pricing[country]}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <Button className="btn-medical" asChild>
+                      <Link to="/contact">
+                        <Megaphone className="h-4 w-4 mr-2" />
+                        Book Speaking Engagement
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <Link to="/contact">
+                        Learn More About Consulting
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Link>
+                    </Button>
+                  </div>
+            
+            
+            </div>
           </div>
         </section>
 

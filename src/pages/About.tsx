@@ -15,6 +15,9 @@ import {
   ArrowRight
 } from 'lucide-react';
 import heroImage from '@/assets/dr-dorcus-hero.jpg';
+import kmaLogo from '@/assets/kma-final-logo.png';
+import royalCollegeLogo from '@/assets/royal college.jpeg';
+import figoLogo from '@/assets/figo.png';
 
 const About = () => {
   const education = [
@@ -212,17 +215,17 @@ const About = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="text-center">
-                  <img src="../assets/kma-final-logo.png" alt="" className='w-20 h-20 mx-auto' />
+                  <img src={kmaLogo} alt="Kenya Medical Association" className='w-40 h-20 mx-auto object-contain' />
                   <h4 className="font-medium text-foreground mb-2">Kenya Medical Association</h4>
                   <p className="text-sm text-muted-foreground">Active Member</p>
                 </div>
                 <div className="text-center">
-                  <img src="../assets/royal-college.jpeg" alt="" className='w-20 h-20 mx-auto' />
+                  <img src={royalCollegeLogo} alt="Royal College of Obstetricians" className='w-40 h-20 mx-auto object-contain' />
                   <h4 className="font-medium text-foreground mb-2">Royal College of Obstetricians</h4>
                   <p className="text-sm text-muted-foreground">Associate Member</p>
                 </div>
                 <div className="text-center">
-                  <img src="C:\Users\alvin\OneDrive\Desktop\dorcus-womens-care-global\src\assets\figo.png" alt="" className='w-20 h-20 mx-auto' />
+                  <img src={figoLogo} alt="International Federation of Gynecology" className='w-40 h-20 mx-auto object-contain' />
                   <h4 className="font-medium text-foreground mb-2">International Federation of Gynecology</h4>
                   <p className="text-sm text-muted-foreground">Research Contributor</p>
                 </div>

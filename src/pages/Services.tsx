@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import dorcus from "../assets/dorcus-noBG.png";
 import { useLocation } from '@/components/LocationProvider';
 import { 
   Baby, 
@@ -63,26 +64,14 @@ const Services = () => {
     },
     {
       icon: BookOpen,
-      title: "Women's Health Education",
-      description: "Empowering women with knowledge for better health decisions",
+      title: "Education & Research",
+      description: "Empowering women through education and advancing knowledge in women's health",
       color: "text-accent-purple",
       bgColor: "bg-accent-purple-light",
-      details: "We empower women through health literacy workshops, reproductive health education, preventive care training, nutrition guidance, mental health awareness, self-care practices, and community outreach programs to promote informed health decisions and wellness.",
+      details: "We empower women through health literacy workshops, reproductive health education, preventive care training, nutrition guidance, and mental health awareness. Our research initiatives offer clinical study participation, women's health trials, hormone advancement programs, and evidence-based treatment development to advance women's health knowledge and care standards globally.",
       pricing: {
         Kenya: "KES 3,000 - 8,000",
         UK: "£80 - £200"
-      }
-    },
-    {
-      icon: Microscope,
-      title: "Research on Women's Public Health",
-      description: "Advancing knowledge in reproductive and hormone health to empower women",
-      color: "text-primary",
-      bgColor: "bg-primary-light",
-      details: "Our research initiatives offer clinical study participation, women's health trials, reproductive health research, hormone advancement programs, public health policy contribution, evidence-based treatment development, and community data analysis to advance women's health knowledge and care standards.",
-      pricing: {
-        Kenya: "Variable (Research Programs)",
-        UK: "Variable (Research Programs)"
       }
     }
   ];
@@ -194,13 +183,17 @@ const Services = () => {
               <Card className="card-medical h-full">
                 <CardContent className="p-0">
                   <div className="relative h-96 overflow-hidden rounded-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/20 to-primary/20">
+                    <div className="absolute inset-0 bg-primary">
                       {/* Placeholder for carousel - can be replaced with actual carousel component */}
                       <div className="flex items-center justify-center h-full">
                         <div className="text-center">
-                          <Megaphone className="h-16 w-16 text-accent-purple mx-auto mb-4" />
+                          <img 
+                            src={dorcus} 
+                            alt="Dr. Dorcus" 
+                            className="w-64 h-64 object-contain mx-auto mb-4"
+                          />
                           <p className="text-muted-foreground">Speaking Engagements Gallery</p>
-                          <p className="text-sm text-muted-foreground mt-2">Conference photos coming soon</p>
+                          <p className="text-sm text-muted-foreground mt-2">Expert speaker and consultant</p>
                         </div>
                       </div>
                     </div>

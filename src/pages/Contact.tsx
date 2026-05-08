@@ -6,12 +6,11 @@ import {
   MapPin, 
   Phone, 
   Mail, 
-  Clock, 
+  Clock,
   Calendar,
   MessageSquare,
-  Globe,
-
-  
+  MessageCircle,
+  Globe
 } from 'lucide-react';
 
 const Contact = () => {
@@ -21,10 +20,10 @@ const Contact = () => {
       flag: "🇰🇪",
       clinicName: "Nairobi Women's Hospital",
       address: "Adams Arcade, Ngong Road\nNairobi, Kenya",
-      phone: "+44 7729 241050",
+      phone: "+254 720 996444",
       email: "info@drdorcusmuchiri.com",
       hours: "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 2:00 PM",
-      emergencyPhone: "+44 7729 241050",
+      emergencyPhone: "+254 720 996444",
       mapEmbedId: "kenya-clinic"
     },
     {
@@ -44,7 +43,7 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone Consultation",
-      description: "Speak directly with Dr. Dorcus for urgent concerns or follow-up care",
+      description: "Speak with Dr. Dorcus",
       action: "Call Now",
       color: "text-accent-green"
     },
@@ -85,123 +84,7 @@ const Contact = () => {
 
         {/* Contact Methods */}
         <section className="mb-16">
-          <h2 className="heading-secondary text-center mb-12">How to Reach Us</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {contactMethods.map((method, index) => (
-              <Card key={index} className="card-medical-feature group cursor-pointer">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-3 rounded-full bg-background/50">
-                    <method.icon className={`h-8 w-8 ${method.color}`} />
-                  </div>
-                  <CardTitle className="text-lg">{method.title}</CardTitle>
-                  <CardDescription>{method.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <Button className="btn-medical-soft w-full">
-                    {method.action}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
 
-        {/* Location Information */}
-        <section className="mb-16">
-          <h2 className="heading-secondary text-center mb-12">Our Locations</h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {locations.map((location, index) => (
-              <Card key={index} className="card-medical">
-                <CardHeader>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <span className="text-3xl">{location.flag}</span>
-                    <div>
-                      <CardTitle className="text-xl">{location.country}</CardTitle>
-                      <CardDescription className="text-primary font-medium">
-                        {location.clinicName}
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  {/* Address */}
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="h-5 w-5 text-primary mt-1 shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-foreground mb-1">Address</h4>
-                      <p className="text-muted-foreground whitespace-pre-line">{location.address}</p>
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="flex items-start space-x-3">
-                    <Phone className="h-5 w-5 text-primary mt-1 shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-foreground mb-1">Phone</h4>
-                      <p className="text-muted-foreground">{location.phone}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Emergency: {location.emergencyPhone}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div className="flex items-start space-x-3">
-                    <Mail className="h-5 w-5 text-primary mt-1 shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-foreground mb-1">Email</h4>
-                      <p className="text-muted-foreground">{location.email}</p>
-                    </div>
-                  </div>
-
-                  {/* Hours */}
-                  <div className="flex items-start space-x-3">
-                    <Clock className="h-5 w-5 text-primary mt-1 shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-foreground mb-1">Operating Hours</h4>
-                      <p className="text-muted-foreground whitespace-pre-line">{location.hours}</p>
-                    </div>
-                  </div>
-
-                  {/* Google Maps Embed */}
-                  <div className="rounded-lg overflow-hidden border border-border">
-                    <iframe
-                      src={location.country === "Kenya" 
-                        ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.786087731234!2d36.7817!3d-1.3028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x940b62a3c8efde4c!2sAdams%20Arcade%2C%20Nairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
-                        : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.7535827553333!2d-0.1454!3d51.5174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ad554c335c1%3A0x9b7d3f0f8b9a7c8e!2s123%20Harley%20St%2C%20Marylebone%2C%20London%20W1G%206BA%2C%20UK!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
-                    }
-                      width="100%"
-                      height="300"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title={`Map of ${location.clinicName}`}
-                    />
-                  </div>
-
-                  {/* Quick Actions */}
-                  <div className="grid grid-cols-2 gap-4 pt-4">
-                    <Button className="btn-medical-outline" size="sm">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Chat with Us
-                    </Button>
-                    <Button className="btn-medical" size="sm">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Book
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Contact Form */}
-        <section className="mb-16">
           <h2 className="heading-secondary text-center mb-12">Send Us a Message</h2>
           
           <div className="max-w-4xl mx-auto">
@@ -252,8 +135,106 @@ const Contact = () => {
               </CardContent>
             </Card>
           </div>
+      
+
+          
         </section>
 
+        {/* Location Information */}
+        <section className="mb-16">
+          <h2 className="heading-secondary text-center mb-12">Our Locations</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {locations.map((location, index) => (
+              <Card key={index} className="card-medical">
+                <CardHeader>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <span className="text-3xl">{location.flag}</span>
+                    <div>
+                      <CardTitle className="text-xl">{location.country}</CardTitle>
+                      <CardDescription className="text-primary font-medium">
+                        {location.clinicName}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="space-y-6">
+                  {/* Address */}
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Address</h4>
+                      <p className="text-muted-foreground whitespace-pre-line">{location.address}</p>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="flex items-start space-x-3">
+                    <Phone className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Phone</h4>
+                      <p className="text-muted-foreground">{location.phone}</p>
+                      {/* <p className="text-sm text-muted-foreground">
+                        Emergency: {location.emergencyPhone}
+                      </p> */}
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex items-start space-x-3">
+                    <Mail className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Email</h4>
+                      <p className="text-muted-foreground">{location.email}</p>
+                    </div>
+                  </div>
+
+                  {/* Hours */}
+                  <div className="flex items-start space-x-3">
+                    <Clock className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Operating Hours</h4>
+                      <p className="text-muted-foreground whitespace-pre-line">{location.hours}</p>
+                    </div>
+                  </div>
+
+                  {/* Google Maps Embed */}
+                  <div className="rounded-lg overflow-hidden border border-border">
+                    <iframe
+                      src={location.country === "Kenya" 
+                        ? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.786087731234!2d36.7817!3d-1.3028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x940b62a3c8efde4c!2sAdams%20Arcade%2C%20Nairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
+                        : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.7535827553333!2d-0.1454!3d51.5174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ad554c335c1%3A0x9b7d3f0f8b9a7c8e!2s123%20Harley%20St%2C%20Marylebone%2C%20London%20W1G%206BA%2C%20UK!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
+                    }
+                      width="100%"
+                      height="300"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={`Map of ${location.clinicName}`}
+                    />
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    <Button className="btn-medical-outline" size="sm">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      <a href="https://wa.me/+254720996444/" target="_blank">Chat with Us</a>
+                    </Button>
+                    <Button className="btn-medical" size="sm">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      <a href="/appointments" target="_blank">Book Appointment</a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact Form */}
+        
         {/* Emergency Information */}
         {/* <section className="mb-16">
           <Card className="card-medical border-red-200 bg-red-50/50">
@@ -299,11 +280,13 @@ const Contact = () => {
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <Button size="lg" className="btn-medical">
                   <Calendar className="h-5 w-5 mr-2" />
-                  Book Appointment
+                  <a href="/appointments">Book Appointment</a>
                 </Button>
-                <Button size="lg" variant="outline">
-                  <Phone className="h-5 w-5 mr-2" />
-                  Call Now
+                <Button size="lg" variant="outline" asChild>
+                  <a href="tel:+254720996444">
+                    <Phone className="h-5 w-5 mr-2" />
+                    Call Now
+                  </a>
                 </Button>
               </div>
             </CardContent>

@@ -12,8 +12,8 @@ const Navigation = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Appointments', path: '/appointments' },
-    { name: 'Resources', path: '/resources' },
+    { name: 'Book Appointment', path: '/book-appointment' },
+    { name: 'Public Speaking', path: '/public-speaking' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -56,7 +56,7 @@ const Navigation = () => {
               </Link>
             </Button>
             <Button size="sm" className="btn-medical" asChild>
-              <Link to="/appointments">
+              <Link to="/book-appointment">
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Appointment
               </Link>
@@ -102,7 +102,7 @@ const Navigation = () => {
                     </Link>
                   </Button>
                   <Button className="w-full btn-medical" asChild>
-                    <Link to="/appointments" onClick={() => setIsOpen(false)}>
+                    <Link to="/book-appointments" onClick={() => setIsOpen(false)}>
                       <Calendar className="h-4 w-4 mr-2" />
                       Book Appointment
                     </Link>

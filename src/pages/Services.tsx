@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import dorcus from "../assets/dorcus-noBG.png";
+import dorcus from "../assets/doc4.jpg";
 import { useLocation } from '@/components/LocationProvider';
 import { 
   Baby, 
@@ -146,7 +146,7 @@ const Services = () => {
                     </div>
                   </div>
                   
-                  {country && (
+                  {/* {country && (
                     <div className="bg-muted/50 rounded-lg p-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium text-foreground">Consultation Fee:</span>
@@ -155,7 +155,7 @@ const Services = () => {
                         </span>
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </CardHeader>
                 
                 <CardContent>
@@ -178,39 +178,20 @@ const Services = () => {
         {/* Speaking & Consulting Section */}
         <section className="mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Photo Carousel Side */}
+            {/* Photo Side */}
             <div className="relative">
-              <Card className="card-medical h-full">
-                <CardContent className="p-0">
-                  <div className="relative h-96 overflow-hidden rounded-lg">
-                    <div className="absolute inset-0 bg-primary">
-                      {/* Placeholder for carousel - can be replaced with actual carousel component */}
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center">
-                          <img 
-                            src={dorcus} 
-                            alt="Dr. Dorcus" 
-                            className="w-64 h-64 object-contain mx-auto mb-4"
-                          />
-                          <p className="text-muted-foreground">Speaking Engagements Gallery</p>
-                          <p className="text-sm text-muted-foreground mt-2">Expert speaker and consultant</p>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Carousel indicators placeholder */}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <div className="w-2 h-2 bg-muted rounded-full"></div>
-                      <div className="w-2 h-2 bg-muted rounded-full"></div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <img 
+                src={dorcus} 
+                alt="Dr. Dorcus" 
+                className="w-full h-100px rounded-lg object-contain"
+              />
             </div>
             
             {/* Description Side */}
             <div>
-               
+                  <h3 className="heading-secondary mb-6">
+                   Public Speaking
+                 </h3>
                   <p className="text-foreground mb-6 leading-relaxed">
                     Dr. Dorcus brings extensive expertise in women's health to conferences, forums, and workshops worldwide. 
                     As a sought-after speaker, she delivers compelling keynote presentations on fertility support, menopause care, 
@@ -220,7 +201,7 @@ const Services = () => {
                     Dr. Dorcus provides evidence-based insights that empower and educate audiences on critical women's health topics.
                   </p>
                   
-                  {country && (
+                  {/* {country && (
                     <div className="bg-muted/50 rounded-lg p-4 mb-6">
                       <div className="flex items-center">
                         <span className="text-sm font-medium text-foreground">Pricing:</span>
@@ -229,18 +210,12 @@ const Services = () => {
                         </span>
                       </div>
                     </div>
-                  )}
+                  )} */}
                   
                   <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <Button className="btn-medical" asChild>
-                      <Link to="/contact">
-                        <Megaphone className="h-4 w-4 mr-2" />
-                        Book Speaking Engagement
-                      </Link>
-                    </Button>
                     <Button variant="outline" asChild>
-                      <Link to="/contact">
-                        Learn More About Consulting
+                      <Link to="/public-speaking">
+                        Learn More 
                         <ArrowRight className="h-4 w-4 ml-2" />
                       </Link>
                     </Button>
@@ -252,7 +227,7 @@ const Services = () => {
         </section>
 
         {/* Emergency Services */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <Card className="card-medical bg-gradient-soft">
             <CardHeader className="text-center">
               <CardTitle className="flex items-center justify-center space-x-2 text-2xl">
@@ -286,7 +261,7 @@ const Services = () => {
               </div>
             </CardContent>
           </Card>
-        </section>
+        </section> */}
 
         {/* Treatment Philosophy */}
         <section className="mb-16">

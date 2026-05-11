@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import Dorcus from '@/assets/dorcus-noBG.png';
+import Dorcus from '@/assets/IMG_0048.jpeg';
 import {
   GraduationCap,
   Award,
@@ -12,7 +12,8 @@ import {
   BookOpen,
   Plane,
   Calendar,
-  ArrowRight
+  ArrowRight,
+  User,
 } from 'lucide-react';
 import heroImage from '@/assets/dr-dorcus-hero.jpg';
 import kmaLogo from '@/assets/kma-final-logo.png';
@@ -83,10 +84,10 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div>
-                {/* <Badge variant="secondary" className="mb-4">
-                  <Globe className="h-4 w-4 mr-2" />
-                  International Medical Professional
-                </Badge> */}
+                <Badge variant="secondary" className="mb-4">
+                  <User className="h-4 w-4 mr-2" />
+                  Get To Know Me
+                </Badge>
                 <h1 className="heading-primary mb-6">
                   About <span className="text-medical-accent">Dr. Dorcus</span> Wamaitha Muchiri
                 </h1>
@@ -117,7 +118,7 @@ const About = () => {
               <img
                 src={Dorcus}
                 alt="Dr. Dorcus Wamaitha Muchiri"
-                className="w-full h-auto rounded-2xl shadow-large"
+                className="w-3/4 h-auto max-w-md max-h-90 mx-auto rounded-2xl shadow-large object-cover"
               />
             </div>
           </div>

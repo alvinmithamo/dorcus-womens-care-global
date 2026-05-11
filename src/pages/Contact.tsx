@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import doki from '@/assets/IMG_0051.jpeg'
 import { 
   MapPin, 
   Phone, 
@@ -87,57 +88,64 @@ const Contact = () => {
 
           <h2 className="heading-secondary text-center mb-12">Send Us a Message</h2>
           
-          <div className="max-w-4xl mx-auto">
-            <Card className="card-medical">
-              <CardHeader className="text-center">
-                <CardTitle>Contact Form</CardTitle>
-                <CardDescription>
-                  Fill out the form below and we'll get back to you within 24 hours
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {/* Placeholder for GHL Form Embed */}
-                <div className='rounded-lg-overflow-hidden-border-border-border'>
-                  <iframe
-                    src="https://api.leadconnectorhq.com/widget/form/SUNeFDz3exRQlN9Th60y"
-                    style={{ width:"100%",height:"600px",border:"none",borderRadius:"3px" }}
-                    id="inline-SUNeFDz3exRQlN9Th60y" 
-                    data-layout="{'id':'INLINE'}"
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="Contact Form"
-                    data-height="558"
-                    data-layout-iframe-id="inline-SUNeFDz3exRQlN9Th60y"
-                    data-form-id="SUNeFDz3exRQlN9Th60y"
-                    title="Contact Form"
-                        >
-                </iframe>
-                <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Contact Form Side */}
+              <div>
+                <Card className="card-medical h-full">
+                  <CardHeader className="text-center">
+                    <CardTitle>Contact Form</CardTitle>
+                    <CardDescription>
+                      Fill out the form below and we'll get back to you within 24 hours
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Placeholder for GHL Form Embed */}
+                    <div className='rounded-lg-overflow-hidden-border-border-border'>
+                      <iframe
+                        src="https://api.leadconnectorhq.com/widget/form/SUNeFDz3exRQlN9Th60y"
+                        style={{ width:"100%",height:"600px",border:"none",borderRadius:"3px" }}
+                        id="inline-SUNeFDz3exRQlN9Th60y" 
+                        data-layout="{'id':'INLINE'}"
+                        data-trigger-type="alwaysShow"
+                        data-trigger-value=""
+                        data-activation-type="alwaysActivated"
+                        data-activation-value=""
+                        data-deactivation-type="neverDeactivate"
+                        data-deactivation-value=""
+                        data-form-name="Contact Form"
+                        data-height="558"
+                        data-layout-iframe-id="inline-SUNeFDz3exRQlN9Th60y"
+                        data-form-id="SUNeFDz3exRQlN9Th60y"
+                        title="Contact Form"
+                            >
+                      </iframe>
+                      <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Image Side */}
+              <div className="order-first lg:order-last">
+                <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                  <img 
+                    src={doki} 
+                    alt="Dr. Dorcus Muchiri - Professional Healthcare Provider"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                    <div className="p-6 text-white">
+                      <h3 className="text-2xl font-bold mb-2">Professional Care You Can Trust</h3>
+                      <p className="text-white/90">
+                        Dr. Dorcus is committed to providing compassionate and comprehensive women's healthcare services.
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
-                {/* <div className="bg-muted/30 border-2 border-dashed border-border rounded-lg p-12 text-center">
-                  <MessageSquare className="h-16 w-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-xl font-medium text-foreground mb-4">
-                    GoHighLevel Contact Form Embed
-                  </h3>
-                  <p className="text-muted-foreground mb-6">
-                    This area will contain the embedded contact form from GoHighLevel, 
-                    allowing patients to send inquiries directly to Dr. Dorcus.
-                  </p>
-                  <Button className="btn-medical">
-                    Load Contact Form
-                  </Button>
-                </div> */}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
-      
-
-          
         </section>
 
         {/* Location Information */}

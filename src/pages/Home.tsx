@@ -16,9 +16,8 @@ import {
   ArrowRight,
   Quote
 } from 'lucide-react';
-import heroImage from '@/assets/dr-dorcus-hero.jpg';
-import clinicImage from '@/assets/clinic-interior.jpg';
-import dorcus from '@/assets/dorcus-noBG.png'
+import clinicImage from '@/assets/IMG_0052.jpeg';
+import dorcus from '@/assets/IMG_0047.jpeg'
 
 const Home = () => {
   const { country } = useLocation();
@@ -92,7 +91,7 @@ const Home = () => {
                   International Women's Health Specialist
                 </Badge>
                 <h1 className="heading-primary">
-                  Empowering <span className="text-medical-accent italic">Women's Health</span>Through Knowledge
+                  Empowering <span className="text-medical-accent italic">Women's Health</span> Through Knowledge
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
                   Dedicated to women's health education, obstetrics, gynaecology, reproductive health, and hormone health.
@@ -141,7 +140,7 @@ const Home = () => {
                 <img
                   src={dorcus}
                   alt="Dr. Dorcus Wamaitha Muchiri"
-                  className="w-full max-w-md h-auto relative z-10"
+                  className="w-full max-w-md h-auto relative z-10 border-4 border-primary-foreground rounded-2xl"
                 />
               </div>
 

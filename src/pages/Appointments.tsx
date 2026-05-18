@@ -60,6 +60,7 @@ const Appointments = () => {
     description,
     formKey,
     formId,
+    formName,
     height,
     children
   }: {
@@ -67,6 +68,7 @@ const Appointments = () => {
     description: string;
     formKey: string;
     formId: string;
+    formName?: string;
     height: string;
     children?: React.ReactNode;
   }) => {
@@ -103,6 +105,7 @@ const Appointments = () => {
                 src={`https://api.leadconnectorhq.com/widget/form/${formId}`}
                 style={{ width: "100%", height: height, border: "none", borderRadius: "3px" }}
                 id={`inline-${formId}`}
+                // sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
                 data-layout='{"id":"INLINE"}'
                 data-trigger-type="alwaysShow"
                 data-trigger-value=""
@@ -110,11 +113,11 @@ const Appointments = () => {
                 data-activation-value=""
                 data-deactivation-type="neverDeactivate"
                 data-deactivation-value=""
-                data-form-name={title}
+                data-form-name={formName || title}
                 data-height={height}
                 data-layout-iframe-id={`inline-${formId}`}
                 data-form-id={formId}
-                title={title}
+                title={formName || title}
               />
             </div>
           </CardContent>
@@ -130,7 +133,8 @@ const Appointments = () => {
         duration: "45 minutes",
         // price: "KES 8,000",
         description: "Schedule a comprehensive women's health consultation with Dr. Dorcus for personalized medical care and treatment",
-        formId: "ijls07LMWZH7LLU0mJy7",
+        formId: "QVFD1h4UYg5DoTUidM9J",
+        formName: "Consultation Appointment booking Form  - New Website",
       },
       {
         type: "Public Speaking Booking",
@@ -146,7 +150,8 @@ const Appointments = () => {
         duration: "45 minutes",
         // price: "£180",
         description: "Schedule a comprehensive women's health consultation with Dr. Dorcus for personalized medical care and treatment",
-        formId: "ijls07LMWZH7LLU0mJy7",
+        formId: "QVFD1h4UYg5DoTUidM9J",
+        formName: "Consultation Appointment booking Form  - New Website",
       },
       {
         type: "Public Speaking Booking",
@@ -242,6 +247,7 @@ const Appointments = () => {
                     description={consultation.description}
                     formKey={`form-${index}`}
                     formId={consultation.formId}
+                    formName={consultation.formName}
                     height={consultation.type.includes("Appointment") ? "1227px" : "1656px"}
                   />
                 ))}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Card,
@@ -18,38 +18,60 @@ import {
   Loader2,
 } from "lucide-react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://dorcus-womens-care-global.onrender.com";
+
+interface ServicePackage {
+  id: string;
+  name: string;
+  amount: number;
+  currency: string;
+  durationMinutes: number;
+}
+
 interface BookingDetails {
   appointmentType: string;
   date: string;
   time: string;
-  amount: string;
-  currency: string;
   email: string;
   phone?: string;
-  name?: string;
+  first_name?: string;
+  last_name?: string;
+  contactId?: string;
+  city?: string;
+  country?: string;
+  service?: String;
 }
 
 const Payment = () => {
   const [searchParams] = useSearchParams();
   const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
+  const [packages, setPackages] = useState<ServicePackage[]>([]);
+  const [selectedPackageId, setSelectedPackageId] = useState("");
   const [loading, setLoading] = useState(true);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const selectedPackage = useMemo(
+    () => packages.find((item) => item.id === selectedPackageId),
+    [packages, selectedPackageId]
+  );
+
   useEffect(() => {
-    // Parse URL parameters from LeadConnector redirect
     const details: BookingDetails = {
       appointmentType: searchParams.get("appointmentType") || "Consultation",
       date: searchParams.get("date") || "",
       time: searchParams.get("time") || "",
-      amount: searchParams.get("amount") || "0",
-      currency: searchParams.get("currency") || "KES",
       email: searchParams.get("email") || "",
       phone: searchParams.get("phone") || "",
-      name: searchParams.get("name") || "",
+      first_name: searchParams.get("first_name") || "",
+      last_name: searchParams.get("last_name") || "",
+      contactId: searchParams.get("contactId") || "",
+      city: searchParams.get("city") || "",
+      country: searchParams.get("country") || "",
+      service: searchParams.get("service") || "",
     };
 
-    if (!details.date || !details.time || !details.amount) {
+    if (!details.date || !details.time || !details.email) {
       setError("Missing required booking information. Please try booking again.");
     } else {
       setBookingDetails(details);
@@ -57,30 +79,51 @@ const Payment = () => {
     setLoading(false);
   }, [searchParams]);
 
+  useEffect(() => {
+    const loadPackages = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/packages`);
+
+        if (!response.ok) {
+          throw new Error("Unable to load packages");
+        }
+
+        const data = await response.json();
+        setPackages(data);
+        setSelectedPackageId(data[0]?.id || "");
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unable to load packages");
+      }
+    };
+
+    loadPackages();
+  }, []);
+
   const initiatePayment = async () => {
-    if (!bookingDetails) return;
+    if (!bookingDetails || !selectedPackage) return;
 
     setPaymentLoading(true);
     setError(null);
 
     try {
-      // Call your backend to create Pesaswap payment
-      // Backend runs on port 3001 (update this in production)
-      const response = await fetch("http://localhost:3001/api/create-payment", {
+      const response = await fetch(`${API_BASE_URL}/api/create-payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: parseFloat(bookingDetails.amount),
-          currency: bookingDetails.currency,
+          packageId: selectedPackage.id,
           email: bookingDetails.email,
           phone: bookingDetails.phone,
-          name: bookingDetails.name,
+          first_name: bookingDetails.first_name,
+          last_name: bookingDetails.last_name,
+          date: bookingDetails.date,
+          time: bookingDetails.time,
+          contactId: bookingDetails.contactId,
+
           metadata: {
             appointmentType: bookingDetails.appointmentType,
-            date: bookingDetails.date,
-            time: bookingDetails.time,
+            source: "ghl_form_redirect",
           },
         }),
       });
@@ -91,11 +134,9 @@ const Payment = () => {
 
       const data = await response.json();
 
-      // Redirect to Pesaswap payment page or handle widget
       if (data.paymentUrl) {
         window.location.href = data.paymentUrl;
       } else if (data.paymentId) {
-        // If using widget, you would load the Pesaswap widget here
         console.log("Payment ID:", data.paymentId);
       } else {
         throw new Error("Invalid payment response");
@@ -145,7 +186,7 @@ const Payment = () => {
           <div className="text-center mb-8">
             <h1 className="heading-primary mb-4">Complete Your Booking</h1>
             <p className="text-muted-foreground">
-              Review your appointment details and proceed to payment
+              Choose your service package, then pay securely to confirm your appointment
             </p>
           </div>
 
@@ -182,16 +223,44 @@ const Payment = () => {
                       <span className="font-medium">{bookingDetails.phone}</span>
                     </div>
                   )}
-                  <div className="flex items-center justify-between py-2 pt-4">
-                    <span className="text-lg font-semibold">Total Amount</span>
-                    <Badge variant="secondary" className="text-lg px-4 py-2">
-                      {bookingDetails.currency} {bookingDetails.amount}
-                    </Badge>
-                  </div>
                 </CardContent>
               </Card>
 
-              {/* Payment Methods */}
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Choose Package</CardTitle>
+                  <CardDescription>
+                    Your appointment is only booked after PesaSwap confirms payment
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {packages.map((servicePackage) => (
+                    <button
+                      key={servicePackage.id}
+                      type="button"
+                      onClick={() => setSelectedPackageId(servicePackage.id)}
+                      className={`w-full rounded-lg border p-4 text-left transition-colors ${
+                        selectedPackageId === servicePackage.id
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:bg-muted/50"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="font-semibold">{servicePackage.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {servicePackage.durationMinutes} minutes
+                          </p>
+                        </div>
+                        <Badge variant="secondary" className="text-sm">
+                          {servicePackage.currency} {servicePackage.amount.toLocaleString()}
+                        </Badge>
+                      </div>
+                    </button>
+                  ))}
+                </CardContent>
+              </Card>
+
               <Card className="mb-6">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
@@ -243,7 +312,7 @@ const Payment = () => {
               <Button
                 className="w-full btn-medical h-12 text-lg"
                 onClick={initiatePayment}
-                disabled={paymentLoading}
+                disabled={paymentLoading || !selectedPackage}
               >
                 {paymentLoading ? (
                   <>
@@ -253,7 +322,7 @@ const Payment = () => {
                 ) : (
                   <>
                     <CreditCard className="h-5 w-5 mr-2" />
-                    Proceed to Payment
+                    Pay {selectedPackage ? `${selectedPackage.currency} ${selectedPackage.amount.toLocaleString()}` : ""}
                   </>
                 )}
               </Button>

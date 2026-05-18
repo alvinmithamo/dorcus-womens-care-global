@@ -10,23 +10,37 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Calendar, Clock, Mail, Phone } from "lucide-react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://dorcus-womens-care-global.onrender.com";
+
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [bookingDetails, setBookingDetails] = useState<any>(null);
 
   useEffect(() => {
-    // Parse booking details from URL parameters
-    const details = {
-      appointmentType: searchParams.get("appointmentType") || "Consultation",
-      date: searchParams.get("date") || "",
-      time: searchParams.get("time") || "",
-      amount: searchParams.get("amount") || "",
-      currency: searchParams.get("currency") || "KES",
-      email: searchParams.get("email") || "",
-      phone: searchParams.get("phone") || "",
+    const bookingId = searchParams.get("bookingId");
+
+    if (!bookingId) {
+      setBookingDetails(null);
+      return;
+    }
+
+    const loadBooking = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/bookings/${bookingId}`);
+
+        if (!response.ok) {
+          throw new Error("Unable to load booking details");
+        }
+
+        const details = await response.json();
+        setBookingDetails(details);
+      } catch {
+        setBookingDetails({ id: bookingId });
+      }
     };
-    setBookingDetails(details);
+
+    loadBooking();
   }, [searchParams]);
 
   return (
@@ -37,9 +51,9 @@ const PaymentSuccess = () => {
           <Card className="mb-8 border-green-200 bg-green-50/50">
             <CardHeader className="text-center">
               <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-              <CardTitle className="text-2xl text-green-900">Payment Successful!</CardTitle>
+              <CardTitle className="text-2xl text-green-900">Payment Received</CardTitle>
               <CardDescription className="text-green-700">
-                Your appointment has been confirmed
+                Your appointment is confirmed after the PesaSwap webhook verifies payment and books the slot in GHL
               </CardDescription>
             </CardHeader>
           </Card>
@@ -56,7 +70,7 @@ const PaymentSuccess = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="text-muted-foreground">Service Type</span>
-                  <span className="font-medium">{bookingDetails.appointmentType}</span>
+                  <span className="font-medium">{bookingDetails.packageName || "Consultation"}</span>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="text-muted-foreground">Date</span>
@@ -69,8 +83,12 @@ const PaymentSuccess = () => {
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="text-muted-foreground">Amount Paid</span>
                   <span className="font-medium text-green-600">
-                    {bookingDetails.currency} {bookingDetails.amount}
+                    {bookingDetails.currency || "KES"} {bookingDetails.amount?.toLocaleString?.() || ""}
                   </span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b">
+                  <span className="text-muted-foreground">Booking Status</span>
+                  <span className="font-medium">{bookingDetails.bookingStatus || "verifying_payment"}</span>
                 </div>
               </CardContent>
             </Card>

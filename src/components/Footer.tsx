@@ -104,7 +104,7 @@ const Footer = () => {
               </Link> */}
             </div>
             <div className="text-sm text-white">
-              Developed by <a href="https://sleeksolutions.africa" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><u>Sleek Solutions Africa</u> </a>
+              Developed by <a href="https://sleeksolutions.africa" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><u>Sleek Solutions Africa</u> </a>
             </div>
           </div>
         </div>

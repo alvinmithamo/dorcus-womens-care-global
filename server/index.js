@@ -2,55 +2,232 @@ import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
+import { connectDB, initDB } from './config/db.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const PESASWAP_API_URL = process.env.PESASWAP_API_URL || 'https://api.sandbox.pesaswap.io';
+const GHL_API_URL = process.env.GHL_API_URL || 'https://services.leadconnectorhq.com';
+
+const packages = {
+  menopause_hormonal: {
+    id: 'menopause_hormonal',
+    name: 'Menopause and other Hormonal conditions',
+    amount: Number(process.env.MENOPAUSE_HORMONAL_PRICE || 8000),
+    currency: 'KES',
+    durationMinutes: 45,
+  },
+  fertility_consultation: {
+    id: 'fertility_consultation',
+    name: 'Fertility Consultation',
+    amount: Number(process.env.FERTILITY_CONSULTATION_PRICE || 8000),
+    currency: 'KES',
+    durationMinutes: 45,
+  },
+  doc_in_pocket: {
+    id: 'doc_in_pocket',
+    name: 'Doc-in-pocket',
+    amount: Number(process.env.DOC_IN_POCKET_PRICE || 3000),
+    currency: 'KES',
+    durationMinutes: 30,
+  },
+};
+
+const updateBooking = async (bookingId, updates) => {
+  const db = await connectDB();
+  
+  const fields = [];
+  const values = [];
+  let paramIndex = 1;
+
+  for (const [key, value] of Object.entries(updates)) {
+    // Convert camelCase to snake_case for PostgreSQL
+    const dbField = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+    fields.push(`${dbField} = $${paramIndex}`);
+    values.push(value);
+    paramIndex++;
+  }
+
+  values.push(bookingId);
+  values.push(bookingId);
+
+  const query = `
+    UPDATE bookings 
+    SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP 
+    WHERE booking_id = $${paramIndex} OR payment_id = $${paramIndex + 1}
+    RETURNING *
+  `;
+
+  try {
+    const result = await db.query(query, values);
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Error updating booking:', error.message);
+    throw error;
+  }
+};
+
+const createBooking = async (bookingData) => {
+  const db = await connectDB();
+
+  const fields = [];
+  const placeholders = [];
+  const values = [];
+  let paramIndex = 1;
+
+  for (const [key, value] of Object.entries(bookingData)) {
+    const dbField = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+    fields.push(dbField);
+    placeholders.push(`$${paramIndex}`);
+    values.push(value);
+    paramIndex++;
+  }
+
+  const query = `
+    INSERT INTO bookings (${fields.join(', ')})
+    VALUES (${placeholders.join(', ')})
+    RETURNING *
+  `;
+
+  try {
+    const result = await db.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error creating booking:', error.message);
+    throw error;
+  }
+};
+
+const getBooking = async (bookingId) => {
+  const db = await connectDB();
+
+  const query = `
+    SELECT * FROM bookings 
+    WHERE booking_id = $1
+  `;
+
+  try {
+    const result = await db.query(query, [bookingId]);
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Error fetching booking:', error.message);
+    throw error;
+  }
+};
+
+const createLeadConnectorAppointment = async (booking) => {
+  if (!process.env.GHL_API_KEY || !process.env.GHL_CALENDAR_ID || !process.env.GHL_LOCATION_ID) {
+    throw new Error('Missing GHL_API_KEY, GHL_CALENDAR_ID, or GHL_LOCATION_ID');
+  }
+
+  const startTime = new Date(`${booking.date}T${booking.time}`).toISOString();
+  const endTime = new Date(new Date(startTime).getTime() + booking.durationMinutes * 60 * 1000).toISOString();
+
+  const response = await axios.post(
+    `${GHL_API_URL}/calendars/events/appointments`,
+    {
+      calendarId: process.env.GHL_CALENDAR_ID,
+      locationId: process.env.GHL_LOCATION_ID,
+      contactId: booking.contactId || undefined,
+      title: booking.packageName,
+      startTime,
+      endTime,
+      appointmentStatus: 'confirmed',
+      assignedUserId: process.env.GHL_ASSIGNED_USER_ID || undefined,
+      address: booking.location || undefined,
+      notes: `Paid via PesaSwap. Payment ID: ${booking.paymentId}. Client: ${booking.name || booking.email}. Phone: ${booking.phone || 'N/A'}`,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GHL_API_KEY}`,
+        Version: process.env.GHL_API_VERSION || '2021-07-28',
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return response.data;
+};
+
+const extractPaymentEvent = (event) => {
+  const payment = event.data?.object || event.data || event.payment || event;
+  return {
+    type: event.type || event.event || payment.status,
+    paymentId: payment.id || payment.paymentId || payment.payment_id || payment.reference,
+    status: payment.status,
+    metadata: payment.metadata || {},
+    raw: event,
+  };
+};
 
 // Middleware
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
 }));
 app.use(express.json());
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-// Create payment endpoint
+app.get('/api/packages', (req, res) => {
+  res.json(Object.values(packages));
+});
+
+// Add a root route for Railway health check
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Dorcus Womens Care API is running' });
+});
+
 app.post('/api/create-payment', async (req, res) => {
   try {
-    const { amount, currency, email, phone, name, metadata } = req.body;
+    const { packageId, email, phone, name, date, time, contactId, location, metadata } = req.body;
+    const selectedPackage = packages[packageId];
 
-    // Validate required fields
-    if (!amount || !currency || !email) {
+    if (!selectedPackage || !email || !date || !time) {
       return res.status(400).json({
-        error: 'Missing required fields: amount, currency, email'
+        error: 'Missing required fields: packageId, email, date, time'
       });
     }
 
-    // Prepare Pesaswap payment request
+    const bookingId = crypto.randomUUID();
     const paymentData = {
-      amount: Math.round(amount * 100), // Convert to cents/smallest unit if needed
-      currency: currency,
+      amount: Math.round(selectedPackage.amount * 100),
+      currency: selectedPackage.currency,
       customer: {
         email: email,
         name: name || '',
         phone: phone || '',
       },
-      metadata: metadata || {},
-      // Set confirm=true and capture_method=automatic for one-step payment
+      metadata: {
+        ...(metadata || {}),
+        bookingId,
+        packageId: selectedPackage.id,
+        packageName: selectedPackage.name,
+        date,
+        time,
+      },
       confirm: true,
       capture_method: 'automatic',
-      // Add redirect URLs for success/failure
-      return_url: `${process.env.CORS_ORIGIN}/payment/success`,
-      cancel_url: `${process.env.CORS_ORIGIN}/payment/failure`,
+      return_url: `${process.env.CORS_ORIGIN}/payment/success?bookingId=${bookingId}`,
+      cancel_url: `${process.env.CORS_ORIGIN}/payment/failure?bookingId=${bookingId}`,
     };
 
-    // Call Pesaswap API to create payment
     const response = await axios.post(
       `${PESASWAP_API_URL}/payments`,
       paymentData,
@@ -62,9 +239,31 @@ app.post('/api/create-payment', async (req, res) => {
       }
     );
 
-    // Return payment details to frontend
+    const paymentId = response.data.id || response.data.paymentId || response.data.payment_id;
+    
+    const booking = await createBooking({
+      bookingId,
+      paymentId,
+      packageId: selectedPackage.id,
+      packageName: selectedPackage.name,
+      amount: selectedPackage.amount,
+      currency: selectedPackage.currency,
+      durationMinutes: selectedPackage.durationMinutes,
+      email,
+      phone: phone || '',
+      name: name || '',
+      date,
+      time,
+      contactId: contactId || '',
+      location: location || '',
+      metadata: metadata || {},
+      paymentStatus: response.data.status || 'pending',
+      bookingStatus: 'awaiting_payment',
+    });
+
     res.json({
-      paymentId: response.data.id,
+      bookingId,
+      paymentId,
       paymentUrl: response.data.url || response.data.payment_url,
       clientSecret: response.data.client_secret,
       status: response.data.status,
@@ -79,91 +278,25 @@ app.post('/api/create-payment', async (req, res) => {
   }
 });
 
-// Webhook endpoint for LeadConnector appointment bookings
-app.post('/api/webhook/leadconnector', async (req, res) => {
+app.get('/api/bookings/:bookingId', async (req, res) => {
   try {
-    const webhookData = req.body;
+    const booking = await getBooking(req.params.bookingId);
 
-    console.log('LeadConnector webhook received:', JSON.stringify(webhookData, null, 2));
+    if (!booking) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
 
-    // Extract booking details from webhook
-    // LeadConnector webhook structure varies by event type
-    // Common fields for appointment booked:
-    const appointment = webhookData.appointment || {};
-    const contact = webhookData.contact || {};
+    // Convert snake_case back to camelCase for frontend
+    const camelCaseBooking = {};
+    for (const [key, value] of Object.entries(booking)) {
+      const camelKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+      camelCaseBooking[camelKey] = value;
+    }
 
-    // Extract relevant booking information
-    const bookingDetails = {
-      appointmentId: appointment.id || webhookData.id,
-      appointmentType: appointment.appointmentType || appointment.type || 'Consultation',
-      date: appointment.start || appointment.date || appointment.startTime,
-      time: appointment.startTime || appointment.time,
-      amount: appointment.price || appointment.amount || appointment.paymentAmount || 0,
-      currency: appointment.currency || 'KES',
-      email: contact.email || appointment.email,
-      phone: contact.phone || appointment.phone,
-      name: contact.name || appointment.name || `${contact.firstName || ''} ${contact.lastName || ''}`.trim(),
-    };
-
-    console.log('Extracted booking details:', bookingDetails);
-
-    // Create Pesaswap payment
-    const paymentData = {
-      amount: Math.round(parseFloat(bookingDetails.amount) * 100), // Convert to cents
-      currency: bookingDetails.currency,
-      customer: {
-        email: bookingDetails.email,
-        name: bookingDetails.name,
-        phone: bookingDetails.phone,
-      },
-      metadata: {
-        appointmentId: bookingDetails.appointmentId,
-        appointmentType: bookingDetails.appointmentType,
-        date: bookingDetails.date,
-        time: bookingDetails.time,
-        source: 'leadconnector',
-      },
-      confirm: true,
-      capture_method: 'automatic',
-      return_url: `${process.env.CORS_ORIGIN}/payment/success`,
-      cancel_url: `${process.env.CORS_ORIGIN}/payment/failure`,
-    };
-
-    console.log('Creating Pesaswap payment with data:', paymentData);
-
-    // Call Pesaswap API to create payment
-    const response = await axios.post(
-      `${PESASWAP_API_URL}/payments`,
-      paymentData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'api-key': process.env.PESASWAP_API_KEY,
-        },
-      }
-    );
-
-    console.log('Pesaswap payment created:', response.data);
-
-    // In a real implementation, you would:
-    // 1. Save the payment record to your database
-    // 2. Send the payment URL to the customer via email/SMS
-    // 3. Update the booking status in LeadConnector via their API
-
-    res.json({
-      received: true,
-      paymentCreated: true,
-      paymentId: response.data.id,
-      paymentUrl: response.data.url || response.data.payment_url,
-      message: 'Payment created successfully. Send payment URL to customer.',
-    });
-
+    res.json(camelCaseBooking);
   } catch (error) {
-    console.error('LeadConnector webhook error:', error.response?.data || error.message);
-    res.status(500).json({
-      error: 'Webhook processing failed',
-      details: error.response?.data || error.message,
-    });
+    console.error('Booking status error:', error.message);
+    res.status(500).json({ error: 'Failed to load booking' });
   }
 });
 
@@ -171,42 +304,72 @@ app.post('/api/webhook/leadconnector', async (req, res) => {
 app.post('/api/webhook/pesaswap', async (req, res) => {
   try {
     const event = req.body;
+    const paymentEvent = extractPaymentEvent(event);
 
-    // Verify webhook signature (recommended for production)
-    // const signature = req.headers['x-pesaswap-signature'];
-    // if (!verifyWebhookSignature(signature, req.body, process.env.WEBHOOK_SECRET)) {
-    //   return res.status(401).json({ error: 'Invalid signature' });
-    // }
+    console.log('Webhook received:', paymentEvent);
 
-    console.log('Webhook received:', event);
-
-    // Handle different webhook events
-    switch (event.type) {
+    switch (paymentEvent.type) {
       case 'payment_succeeded':
-        console.log('Payment succeeded:', event.data);
-        // Update booking status in your database
-        // Send confirmation email to customer
-        // Notify clinic about new booking
+      case 'succeeded':
+      case 'paid': {
+        const bookingId = paymentEvent.metadata.bookingId || paymentEvent.paymentId;
+        const booking = await updateBooking(bookingId, {
+          paymentStatus: 'succeeded',
+          bookingStatus: 'payment_verified',
+          paymentWebhook: paymentEvent.raw,
+        });
+
+        if (!booking) {
+          console.error('No booking found for payment:', paymentEvent.paymentId);
+          break;
+        }
+
+        try {
+          const ghlAppointment = await createLeadConnectorAppointment(booking);
+          await updateBooking(booking.id, {
+            bookingStatus: 'confirmed',
+            ghlAppointmentId: ghlAppointment.id || ghlAppointment.appointment?.id || '',
+            ghlResponse: ghlAppointment,
+          });
+        } catch (bookingError) {
+          console.error('GHL booking error:', bookingError.response?.data || bookingError.message);
+          await updateBooking(booking.id, {
+            bookingStatus: 'ghl_booking_failed',
+            ghlError: bookingError.response?.data || bookingError.message,
+          });
+        }
         break;
+      }
 
       case 'payment_failed':
-        console.log('Payment failed:', event.data);
-        // Update booking status to failed
-        // Send notification to customer about failed payment
+      case 'failed':
+        await updateBooking(paymentEvent.metadata.bookingId || paymentEvent.paymentId, {
+          paymentStatus: 'failed',
+          bookingStatus: 'payment_failed',
+          paymentWebhook: paymentEvent.raw,
+        });
         break;
 
       case 'payment_processing':
-        console.log('Payment processing:', event.data);
-        // Update booking status to processing
+      case 'processing':
+        await updateBooking(paymentEvent.metadata.bookingId || paymentEvent.paymentId, {
+          paymentStatus: 'processing',
+          bookingStatus: 'awaiting_payment',
+          paymentWebhook: paymentEvent.raw,
+        });
         break;
 
       case 'payment_cancelled':
-        console.log('Payment cancelled:', event.data);
-        // Update booking status to cancelled
+      case 'cancelled':
+        await updateBooking(paymentEvent.metadata.bookingId || paymentEvent.paymentId, {
+          paymentStatus: 'cancelled',
+          bookingStatus: 'payment_cancelled',
+          paymentWebhook: paymentEvent.raw,
+        });
         break;
 
       default:
-        console.log('Unhandled webhook event:', event.type);
+        console.log('Unhandled webhook event:', paymentEvent.type);
     }
 
     res.json({ received: true });
@@ -243,8 +406,19 @@ app.get('/api/payment/:paymentId', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`CORS origin: ${process.env.CORS_ORIGIN}`);
-  console.log(`Pesaswap API URL: ${PESASWAP_API_URL}`);
-});
+const startServer = async () => {
+  try {
+    await initDB();
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`CORS origin: ${process.env.CORS_ORIGIN}`);
+      console.log(`Pesaswap API URL: ${PESASWAP_API_URL}`);
+      console.log(`Database: PostgreSQL`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

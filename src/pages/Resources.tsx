@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,72 +21,129 @@ import {
 import { FaSpotify, FaApple, FaYoutube, FaInstagram, FaTiktok } from 'react-icons/fa';
 
 const PublicSpeaking = () => {
+  const [filter, setFilter] = useState('All');
+  
   const speakingEngagements = [
     {
-      title: "Women's Health Summit 2024",
-      excerpt: "Keynote presentation on 'Empowering Women Through Health Education' at the annual Women's Health Summit, bringing together healthcare professionals and advocates.",
-      category: "Conference",
-      duration: "45 min keynote",
-      date: "March 15, 2024",
+      title: "Drunken Lectures Nairobi",
+      excerpt: "Upcoming speaking engagement on women's health and hormonal wellness.",
+      category: "Upcoming",
+      duration: "Lecture",
+      date: "August 23, 2026",
       location: "Nairobi, Kenya",
       icon: Mic,
       color: "text-accent-green",
       bgColor: "bg-accent-green-light"
     },
     {
-      title: "Medical Education Workshop Series",
-      excerpt: "Interactive workshop series for healthcare providers on advanced women's health topics and patient communication strategies.",
-      category: "Workshop",
-      duration: "3-hour session",
-      date: "February 8, 2024",
+      title: "Private Speaking Engagement",
+      excerpt: "Exclusive private session on women's health topics.",
+      category: "Upcoming",
+      duration: "Private Session",
+      date: "August 21, 2026",
+      location: "Private",
+      icon: Calendar,
+      color: "text-accent-purple",
+      bgColor: "bg-accent-purple-light"
+    },
+    {
+      title: "Women's Health Event",
+      excerpt: "Special speaking engagement focused on women's health and wellness.",
+      category: "Upcoming",
+      duration: "Keynote",
+      date: "August 29, 2026",
+      location: "TBD",
+      icon: Award,
+      color: "text-primary",
+      bgColor: "bg-primary-light"
+    },
+    {
+      title: "Doctor Mums Facebook Webinar",
+      excerpt: "Online webinar discussing women's health topics for mothers and healthcare professionals.",
+      category: "Webinar",
+      duration: "Webinar",
+      date: "2025",
       location: "Virtual",
       icon: GraduationCap,
       color: "text-accent-purple",
       bgColor: "bg-accent-purple-light"
     },
     {
-      title: "Corporate Wellness Program",
-      excerpt: "Healthcare advocacy presentation for corporate employees on women's health awareness and workplace wellness initiatives.",
-      category: "Corporate",
-      duration: "60 min presentation",
-      date: "January 22, 2024",
-      location: "Mombasa, Kenya",
-      icon: Briefcase,
+      title: "Milton Keynes Women's Health Event",
+      excerpt: "Women's health presentation in the UK.",
+      category: "Conference",
+      duration: "Presentation",
+      date: "2025",
+      location: "Milton Keynes, UK",
+      icon: Mic,
       color: "text-primary",
       bgColor: "bg-primary-light"
     },
     {
-      title: "Girls' Education Initiative",
-      excerpt: "Panel discussion on adolescent health education and empowerment for young women in secondary schools across the region.",
-      category: "Education",
-      duration: "90 min panel",
-      date: "December 10, 2023",
-      location: "Kisumu, Kenya",
+      title: "London Church Event",
+      excerpt: "Community health education session at London Church.",
+      category: "Community",
+      duration: "Talk",
+      date: "2025",
+      location: "London, UK",
+      icon: Heart,
+      color: "text-accent-green", 
+      bgColor: "bg-accent-green-light"
+    },
+    {
+      title: "Pipeline PCEA Church",
+      excerpt: "Health awareness talk at Pipeline PCEA Church.",
+      category: "Community",
+      duration: "Talk",
+      date: "2025",
+      location: "Nairobi, Kenya",
       icon: Users,
       color: "text-accent-purple",
       bgColor: "bg-accent-purple-light"
     },
     {
-      title: "Healthcare Policy Forum",
-      excerpt: "Expert panel discussion on healthcare policy reform and women's health advocacy at the national healthcare forum.",
-      category: "Policy",
-      duration: "2-hour forum",
-      date: "November 15, 2023",
+      title: "Makadara Church",
+      excerpt: "Women's health education session at Makadara Church.",
+      category: "Community",
+      duration: "Talk",
+      date: "2025",
       location: "Nairobi, Kenya",
-      icon: Target,
+      icon: Heart,
       color: "text-primary",
       bgColor: "bg-primary-light"
     },
     {
-      title: "International Women's Day Conference",
-      excerpt: "Celebratory keynote on women's health achievements and future challenges in global healthcare delivery.",
+      title: "BLOOM Event",
+      excerpt: "Speaking engagement at BLOOM women's empowerment event.",
       category: "Conference",
-      duration: "50 min keynote",
-      date: "March 8, 2023",
-      location: "Virtual",
+      duration: "Presentation",
+      date: "2025",
+      location: "Kenya",
       icon: Award,
-      color: "text-accent-green", 
+      color: "text-accent-green",
       bgColor: "bg-accent-green-light"
+    },
+    {
+      title: "PETALS Event",
+      excerpt: "Women's health presentation at PETALS gathering.",
+      category: "Conference",
+      duration: "Presentation",
+      date: "2025",
+      location: "Kenya",
+      icon: Target,
+      color: "text-accent-purple",
+      bgColor: "bg-accent-purple-light"
+    },
+    {
+      title: "UWEPA Event",
+      excerpt: "Speaking engagement at UWEPA conference.",
+      category: "Conference",
+      duration: "Presentation",
+      date: "2024",
+      location: "Kenya",
+      icon: Mic,
+      color: "text-primary",
+      bgColor: "bg-primary-light"
     }
   ];
 
@@ -97,25 +154,38 @@ const PublicSpeaking = () => {
       items: ["45-60 minute presentations", "Customizable topics", "Q&A sessions included", "Professional slide deck"]
     },
     {
-      title: "Workshops & Training",
-      description: "Interactive sessions designed for hands-on learning and skill development",
-      items: ["2-4 hour sessions", "Small group settings", "Practical exercises", "Resource materials provided"]
+      title: "Webinars",
+      description: "Online sessions reaching global audiences with interactive engagement",
+      items: ["Virtual delivery", "Global reach", "Interactive Q&A", "Recording available"]
     },
     {
       title: "Panel Discussions",
       description: "Expert insights and perspectives on healthcare topics and policy issues",
       items: ["Moderated discussions", "Multi-expert panels", "Audience engagement", "Current topics focus"]
+    },
+    {
+      title: "Lectures",
+      description: "Educational presentations for academic and professional settings",
+      items: ["Research-based content", "Academic institutions", "Professional development", "Evidence-based"]
+    },
+    {
+      title: "Workshops",
+      description: "Interactive sessions designed for hands-on learning and skill development",
+      items: ["2-4 hour sessions", "Small group settings", "Practical exercises", "Resource materials provided"]
     }
   ];
 
   const categories = [
-    { name: "All", count: 6 },
-    { name: "Conference", count: 2 },
-    { name: "Workshop", count: 1 },
-    { name: "Corporate", count: 1 },
-    { name: "Education", count: 1 },
-    { name: "Policy", count: 1 }
+    { name: "All", count: 11 },
+    { name: "Upcoming", count: 3 },
+    { name: "Past events", count: 8 }
   ];
+
+  const filteredEngagements = filter === 'All' 
+    ? speakingEngagements 
+    : filter === 'Upcoming' 
+      ? speakingEngagements.filter(e => e.category === 'Upcoming')
+      : speakingEngagements.filter(e => e.category !== 'Upcoming');
 
   return (
     <div className="min-h-screen">
@@ -157,7 +227,7 @@ const PublicSpeaking = () => {
                 <img 
                   src={doki}
                   alt="Dr. Dorcus Muchiri - Professional Speaker" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 hidden lg:block">
@@ -198,10 +268,10 @@ const PublicSpeaking = () => {
                   Comprehensive insights on reproductive health, preventive care, and wellness strategies for women at all life stages.
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Reproductive Health</li>
-                  <li>• Preventive Care</li>
+                  <li>• Obstetrics & Gynaecology</li>
+                  <li>• Infertility</li>
+                  <li>• Reproductive Hormones</li>
                   <li>• Menopause Management</li>
-                  <li>• Mental Health & Wellness</li>
                 </ul>
               </div>
             </Card>
@@ -216,10 +286,10 @@ const PublicSpeaking = () => {
                   Advanced training and knowledge sharing for healthcare professionals and medical students.
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Clinical Best Practices</li>
-                  <li>• Patient Communication</li>
-                  <li>• Medical Technology</li>
-                  <li>• Healthcare Innovation</li>
+                  <li>• Contraception</li>
+                  <li>• General Well-being</li>
+                  <li>• Hormonal Health</li>
+                  <li>• Working with Hormones</li>
                 </ul>
               </div>
             </Card>
@@ -234,10 +304,10 @@ const PublicSpeaking = () => {
                   Championing policy reform, patient rights, and equitable healthcare access for all communities.
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-2">
-                  <li>• Healthcare Policy</li>
-                  <li>• Patient Advocacy</li>
-                  <li>• Health Equity</li>
-                  <li>• Community Outreach</li>
+                  <li>• Living Your Full Best Life</li>
+                  <li>• Women's Health Advocacy</li>
+                  <li>• Healthcare Education</li>
+                  <li>• Community Empowerment</li>
                 </ul>
               </div>
             </Card>
@@ -245,18 +315,126 @@ const PublicSpeaking = () => {
         </div>
       </section>
 
-      {/* Featured Engagements */}
-      {/* <section className="py-20 bg-muted/30">
+      {/* Target Audience */}
+      <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="heading-secondary mb-4">Featured Speaking Engagements</h2>
+            <h2 className="heading-secondary mb-4">Target Audience</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Recent appearances at leading conferences and events
+              Tailored presentations for diverse audiences across healthcare and community sectors
             </p>
           </div>
           
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Card className="text-center p-6 hover:shadow-lg transition-all duration-300">
+              <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 w-fit">
+                <GraduationCap className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">Medical Professionals</h3>
+              <p className="text-sm text-muted-foreground">Healthcare providers, specialists, and medical practitioners</p>
+            </Card>
+            
+            <Card className="text-center p-6 hover:shadow-lg transition-all duration-300">
+              <div className="mx-auto mb-4 p-3 rounded-full bg-accent-green/10 w-fit">
+                <Users className="h-6 w-6 text-accent-green" />
+              </div>
+              <h3 className="font-semibold mb-2">General Public</h3>
+              <p className="text-sm text-muted-foreground">Community members seeking health education and awareness</p>
+            </Card>
+            
+            <Card className="text-center p-6 hover:shadow-lg transition-all duration-300">
+              <div className="mx-auto mb-4 p-3 rounded-full bg-accent-purple/10 w-fit">
+                <Briefcase className="h-6 w-6 text-accent-purple" />
+              </div>
+              <h3 className="font-semibold mb-2">Corporate Wellness</h3>
+              <p className="text-sm text-muted-foreground">Organizations focused on employee health and wellness programs</p>
+            </Card>
+            
+            <Card className="text-center p-6 hover:shadow-lg transition-all duration-300">
+              <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 w-fit">
+                <Target className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">Students</h3>
+              <p className="text-sm text-muted-foreground">Medical students and future healthcare professionals</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Credentials & Expertise */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4">
+              <Award className="h-4 w-4 mr-2" />
+              Expertise
+            </Badge>
+            <h2 className="heading-secondary mb-4">Credentials & Expertise</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Established authority through extensive research, international presentations, and professional certifications
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="p-8 hover:shadow-lg transition-all duration-300">
+              <div className="p-4 rounded-full bg-accent-green-light w-fit mb-6">
+                <Award className="h-8 w-8 text-accent-green" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">International Conference Speaker</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Presented research findings at major international conferences every year since 2004, establishing a strong track record of thought leadership in women's health.
+              </p>
+            </Card>
+            
+            <Card className="p-8 hover:shadow-lg transition-all duration-300">
+              <div className="p-4 rounded-full bg-accent-purple-light w-fit mb-6">
+                <GraduationCap className="h-8 w-8 text-accent-purple" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Trainer Certification</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Currently pursuing advanced Trainer's certification with expected graduation in November 2026, enhancing ability to deliver impactful educational sessions.
+              </p>
+            </Card>
+            
+            <Card className="p-8 hover:shadow-lg transition-all duration-300">
+              <div className="p-4 rounded-full bg-primary-light w-fit mb-6">
+                <Heart className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Certified Women's Coach</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Certified One of Many Women's Coach, bringing specialized coaching expertise to empower women in their personal and professional journeys.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Engagements */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="heading-secondary mb-4">Speaking Engagements</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Past and upcoming speaking events. Find more on <Link to="https://www.instagram.com/drdorcusmuchiri" target="_blank" className="text-primary hover:underline">@drdorcusmuchiri</Link>
+            </p>
+          </div>
+          
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {categories.map((cat) => (
+              <Button
+                key={cat.name}
+                variant={filter === cat.name ? "default" : "outline"}
+                onClick={() => setFilter(cat.name)}
+                className={filter === cat.name ? "btn-medical" : ""}
+              >
+                {cat.name} ({cat.count})
+              </Button>
+            ))}
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {speakingEngagements.slice(0, 6).map((engagement, index) => (
+            {filteredEngagements.map((engagement, index) => (
               <Card key={index} className="hover:shadow-lg transition-all duration-300 overflow-hidden">
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -284,22 +462,15 @@ const PublicSpeaking = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      View Details
-                    </Button>
-                    <Button size="sm" className="btn-medical-soft">
-                      Book
-                    </Button>
-                  </div>
+                  {/* <Button size="sm" className="btn-medical-soft w-full">
+                    Book Similar Event
+                  </Button> */}
                 </div>
               </Card>
             ))}
           </div>
-          
-          
         </div>
-      </section> */}
+      </section>
 
 
       {/* Filling The Gap Podcast Section */}

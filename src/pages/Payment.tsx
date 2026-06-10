@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Calendar,
   Clock,
@@ -42,11 +44,24 @@ interface BookingDetails {
   service?: String;
 }
 
+const hasUnresolvedPlaceholder = (value?: string | String) => {
+  const normalizedValue = String(value || "").trim();
+  return normalizedValue.startsWith("{") && normalizedValue.endsWith("}");
+};
+
+const normalizeServiceValue = (value?: string | String) =>
+  String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
 const Payment = () => {
   const [searchParams] = useSearchParams();
   const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
   const [packages, setPackages] = useState<ServicePackage[]>([]);
   const [selectedPackageId, setSelectedPackageId] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [loading, setLoading] = useState(true);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,22 +80,30 @@ const Payment = () => {
       phone: searchParams.get("phone") || "",
       first_name: searchParams.get("first_name") || "",
       last_name: searchParams.get("last_name") || "",
-      contactId: searchParams.get("contactId") || "",
+      contactId: searchParams.get("contactId") || searchParams.get("contactid") || "",
       city: searchParams.get("city") || "",
       country: searchParams.get("country") || "",
       service: searchParams.get("service") || "",
     };
 
-    if (!details.date || !details.time || !details.email) {
-      setError("Missing required booking information. Please try booking again.");
+    if (!details.email) {
+      setError("Missing required contact information. Please try booking again.");
+    } else if ([details.email, details.phone, details.first_name, details.last_name].some(hasUnresolvedPlaceholder)) {
+      setError("GHL is still sending placeholder values instead of real contact details. Please update the form redirect URL to use the exact field keys from your GHL form.");
     } else {
       setBookingDetails(details);
+      setSelectedDate(hasUnresolvedPlaceholder(details.date) ? "" : details.date);
+      setSelectedTime(hasUnresolvedPlaceholder(details.time) ? "" : details.time);
     }
     setLoading(false);
   }, [searchParams]);
 
   useEffect(() => {
     const loadPackages = async () => {
+      if (!bookingDetails) {
+        return;
+      }
+
       try {
         const response = await fetch(`${API_BASE_URL}/api/packages`);
 
@@ -90,17 +113,27 @@ const Payment = () => {
 
         const data = await response.json();
         setPackages(data);
-        setSelectedPackageId(data[0]?.id || "");
+        const normalizedService = normalizeServiceValue(bookingDetails.service || bookingDetails.appointmentType);
+        const matchedPackage = data.find((item: ServicePackage) =>
+          normalizeServiceValue(item.name).includes(normalizedService) ||
+          normalizedService.includes(normalizeServiceValue(item.name))
+        );
+        setSelectedPackageId(matchedPackage?.id || data[0]?.id || "");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unable to load packages");
       }
     };
 
     loadPackages();
-  }, []);
+  }, [bookingDetails]);
 
   const initiatePayment = async () => {
     if (!bookingDetails || !selectedPackage) return;
+
+    if (!selectedDate || !selectedTime) {
+      setError("Please select your preferred appointment date and time before payment.");
+      return;
+    }
 
     setPaymentLoading(true);
     setError(null);
@@ -117,8 +150,9 @@ const Payment = () => {
           phone: bookingDetails.phone,
           first_name: bookingDetails.first_name,
           last_name: bookingDetails.last_name,
-          date: bookingDetails.date,
-          time: bookingDetails.time,
+          name: [bookingDetails.first_name, bookingDetails.last_name].filter(Boolean).join(" "),
+          date: selectedDate,
+          time: selectedTime,
           contactId: bookingDetails.contactId,
 
           metadata: {
@@ -203,15 +237,7 @@ const Payment = () => {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between py-2 border-b">
                     <span className="text-muted-foreground">Service Type</span>
-                    <span className="font-medium">{bookingDetails.appointmentType}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Date</span>
-                    <span className="font-medium">{bookingDetails.date}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Time</span>
-                    <span className="font-medium">{bookingDetails.time}</span>
+                    <span className="font-medium">{bookingDetails.service || bookingDetails.appointmentType || "Appointment Booking"}</span>
                   </div>
                   <div className="flex items-center justify-between py-2 border-b">
                     <span className="text-muted-foreground">Email</span>
@@ -223,6 +249,38 @@ const Payment = () => {
                       <span className="font-medium">{bookingDetails.phone}</span>
                     </div>
                   )}
+                </CardContent>
+              </Card>
+
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <span>Choose Appointment Slot</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Select your preferred appointment date and time before payment
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="appointment-date">Preferred Date</Label>
+                    <Input
+                      id="appointment-date"
+                      type="date"
+                      value={selectedDate}
+                      onChange={(event) => setSelectedDate(event.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="appointment-time">Preferred Time</Label>
+                    <Input
+                      id="appointment-time"
+                      type="time"
+                      value={selectedTime}
+                      onChange={(event) => setSelectedTime(event.target.value)}
+                    />
+                  </div>
                 </CardContent>
               </Card>
 

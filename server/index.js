@@ -3,9 +3,89 @@ import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
-import { connectDB, initDB } from './config/db.js';
+import pg from 'pg';
 
 dotenv.config();
+
+const { Pool } = pg;
+
+let pool = null;
+
+const connectDB = async () => {
+  if (pool) return pool;
+
+  const connectionString = process.env.DATABASE_URL;
+
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is not set in environment variables');
+  }
+
+  pool = new Pool({
+    connectionString,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  });
+
+  try {
+    const client = await pool.connect();
+    console.log('PostgreSQL connected successfully');
+    client.release();
+  } catch (error) {
+    console.error('PostgreSQL connection error:', error.message);
+    pool = null;
+    throw error;
+  }
+
+  return pool;
+};
+
+const initDB = async () => {
+  const db = await connectDB();
+
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS bookings (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      booking_id VARCHAR(255) UNIQUE NOT NULL,
+      payment_id VARCHAR(255),
+      patient_name VARCHAR(255),
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(255),
+      service_type VARCHAR(255),
+      package_id VARCHAR(255),
+      package_name VARCHAR(255),
+      amount DECIMAL(10, 2),
+      currency VARCHAR(10),
+      duration_minutes INTEGER,
+      appointment_date VARCHAR(50),
+      appointment_time VARCHAR(50),
+      calendar_id VARCHAR(255),
+      location_id VARCHAR(255),
+      payment_status VARCHAR(50) DEFAULT 'pending',
+      booking_status VARCHAR(50) DEFAULT 'pending_payment',
+      payment_reference VARCHAR(255),
+      metadata JSONB,
+      ghl_appointment_id VARCHAR(255),
+      ghl_response JSONB,
+      ghl_error JSONB,
+      hold_expires_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_bookings_booking_id ON bookings(booking_id);
+    CREATE INDEX IF NOT EXISTS idx_bookings_payment_id ON bookings(payment_id);
+    CREATE INDEX IF NOT EXISTS idx_bookings_email ON bookings(email);
+    CREATE INDEX IF NOT EXISTS idx_bookings_booking_status ON bookings(booking_status);
+    CREATE INDEX IF NOT EXISTS idx_bookings_calendar_date_time_status ON bookings(calendar_id, appointment_date, appointment_time, booking_status);
+  `;
+
+  try {
+    await db.query(createTableQuery);
+    console.log('Database tables initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database tables:', error.message);
+    throw error;
+  }
+};
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -171,13 +251,27 @@ const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    // Check if the origin is in the allowed list
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    // For production, allow the specific Vercel domain
+    if (process.env.NODE_ENV === 'production' && origin === 'https://dorcus-muchiri-plum.vercel.app') {
       callback(null, true);
       return;
     }
 
     callback(new Error(`CORS blocked for origin: ${origin}`));
   },
+  credentials: true,
 }));
 app.use(express.json());
 

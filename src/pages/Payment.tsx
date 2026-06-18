@@ -113,7 +113,7 @@ const Payment = () => {
 
         const data = await response.json();
         setPackages(data);
-        const normalizedService = normalizeServiceValue(bookingDetails.service || bookingDetails.appointmentType);
+        const normalizedService = normalizeServiceValue(bookingDetails.service || bookingDetails.appointmentType || "Appointment Booking");
         const matchedPackage = data.find((item: ServicePackage) =>
           normalizeServiceValue(item.name).includes(normalizedService) ||
           normalizedService.includes(normalizeServiceValue(item.name))

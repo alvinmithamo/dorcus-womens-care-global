@@ -300,10 +300,12 @@ app.post('/api/create-payment', async (req, res) => {
     }
 
     const bookingId = crypto.randomUUID();
+    const customerId = `cust_${crypto.createHash('sha256').update(email.toLowerCase()).digest('hex').slice(0, 32)}`;
     const paymentData = {
       amount: Math.round(selectedPackage.amount * 100),
       currency: selectedPackage.currency,
       customer: {
+        id: customerId,
         email: email,
         name: name || '',
         phone: phone || '',

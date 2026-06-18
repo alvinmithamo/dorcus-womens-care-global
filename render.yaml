@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: dorcus-womens-care-backend
+    env: node
+    rootDirectory: server
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: CORS_ORIGIN
+        value: https://dorcus-muchiri-plum.vercel.app

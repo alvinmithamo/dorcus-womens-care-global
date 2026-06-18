@@ -12,3 +12,5 @@ services:
         value: 3001
       - key: CORS_ORIGIN
         value: https://dorcus-muchiri-plum.vercel.app
+      - key: FRONTEND_URL
+        value: https://dorcus-muchiri-plum.vercel.app

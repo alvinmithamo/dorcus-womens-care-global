@@ -130,6 +130,13 @@ const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const frontendUrl = (
+  process.env.FRONTEND_URL ||
+  allowedOrigins.find((origin) => origin.startsWith('https://')) ||
+  allowedOrigins[0] ||
+  'http://localhost:5173'
+).replace(/\/+$/, '');
+
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, etc.)
@@ -201,8 +208,8 @@ app.post('/api/create-payment', async (req, res) => {
       },
       confirm: true,
       capture_method: 'automatic',
-      return_url: `${process.env.CORS_ORIGIN}/payment/success?bookingId=${bookingId}`,
-      cancel_url: `${process.env.CORS_ORIGIN}/payment/failure?bookingId=${bookingId}`,
+      return_url: `${frontendUrl}/payment/success?bookingId=${bookingId}`,
+      cancel_url: `${frontendUrl}/payment/failure?bookingId=${bookingId}`,
     };
 
     const response = await axios.post(

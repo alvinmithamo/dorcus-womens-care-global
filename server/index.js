@@ -12,6 +12,7 @@ const bookings = new Map();
 const app = express();
 const PORT = process.env.PORT || 3001;
 const PESASWAP_API_URL = process.env.PESASWAP_API_URL || 'https://api.sandbox.pesaswap.io';
+const PESASWAP_SECRET_KEY = process.env.PESASWAP_SECRET_KEY || process.env.PESASWAP_API_KEY;
 const GHL_API_URL = process.env.GHL_API_URL || 'https://services.leadconnectorhq.com';
 
 const packages = {
@@ -221,7 +222,7 @@ app.post('/api/create-payment', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'api-key': process.env.PESASWAP_API_KEY,
+          'api-key': PESASWAP_SECRET_KEY,
         },
       }
     );
@@ -377,7 +378,7 @@ app.get('/api/payment/:paymentId', async (req, res) => {
       `${PESASWAP_API_URL}/payments/${paymentId}`,
       {
         headers: {
-          'api-key': process.env.PESASWAP_API_KEY,
+          'api-key': PESASWAP_SECRET_KEY,
         },
       }
     );

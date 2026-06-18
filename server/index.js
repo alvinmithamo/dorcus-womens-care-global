@@ -206,11 +206,14 @@ app.post('/api/create-payment', async (req, res) => {
         date,
         time,
       },
-      confirm: true,
       capture_method: 'automatic',
+      payment_link: true,
       return_url: `${frontendUrl}/payment/success?bookingId=${bookingId}`,
-      cancel_url: `${frontendUrl}/payment/failure?bookingId=${bookingId}`,
     };
+
+    if (process.env.PESASWAP_PROFILE_ID) {
+      paymentData.profile_id = process.env.PESASWAP_PROFILE_ID;
+    }
 
     const response = await axios.post(
       `${PESASWAP_API_URL}/payments`,
@@ -223,7 +226,8 @@ app.post('/api/create-payment', async (req, res) => {
       }
     );
 
-    const paymentId = response.data.id || response.data.paymentId || response.data.payment_id;
+    const paymentId = response.data.payment_id || response.data.id || response.data.paymentId;
+    const paymentLink = response.data.payment_link?.link || response.data.payment_link?.secure_link;
     
     const booking = await createBooking({
       bookingId,
@@ -248,7 +252,7 @@ app.post('/api/create-payment', async (req, res) => {
     res.json({
       bookingId,
       paymentId,
-      paymentUrl: response.data.url || response.data.payment_url,
+      paymentUrl: paymentLink || response.data.url || response.data.payment_url,
       clientSecret: response.data.client_secret,
       status: response.data.status,
     });
